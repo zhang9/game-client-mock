@@ -9,8 +9,26 @@
 </template>
 
 <script>
+import clientSender from "./utils/transform";
+import { getLoginToken } from "./utils/login";
+import { array2arraybuffer } from './utils/utils';
 export default {
-    name: "App"
+    name: "App",
+    setup() {
+        getLoginToken().then(res => {
+            console.log(res);
+            const buffer = clientSender(
+                "verify_token",
+                { token: res.token },
+                1
+            );
+            console.log(buffer instanceof Array, buffer);
+            const ws = new WebSocket("ws://127.0.0.1:10011");
+            ws.addEventListener("open", () => {
+                ws.send(array2arraybuffer(buffer));
+            });
+        });
+    }
 };
 </script>
 
