@@ -1,0 +1,3583 @@
+.package {
+	type 0 : integer
+	session 1 : integer
+}
+
+.item {
+    id 0 : string
+    count 1 : integer
+}
+
+.characterbasic {
+    name 1 : string
+    avatar 2 : string
+    avatartype 3 : integer
+}
+
+.charactersimple {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    time 3 : integer
+    recharge 4 : integer
+    title 5:string
+    allTitles 6:*string
+    headInfo 7 : headInfo
+    avatartype 8 : integer
+}
+
+.characterinfo {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    recharge 3 : integer
+    level 4 : integer
+    # 工会id
+    gid 5 : integer
+    # 工会名
+    gname 6 : string
+    # 属性
+    I 7 : integer
+    F 8 : integer
+    E 9 : integer
+    S 10 : integer
+
+    charm 11 : integer
+    intimacy 12 : integer
+    stageid 13 : integer
+
+    beautyCount 14 : integer
+    underlingCount 15 : integer
+    vassalCount 16 : integer
+
+    title 17:string
+    allTitles 18:*string
+    login 19:integer
+    logout 20:integer
+    headInfo 21 : headInfo
+    flagInfo 22 : flagInfo
+    avatartype 23 : integer
+}
+
+.mailStatus {
+    id 0 : string
+    status 1 : integer
+}
+
+.aptitude {
+    id 0 : string
+    level 1 : integer
+}
+
+.book {
+    # I F E S
+    type 0 : string
+    count 1 : integer
+}
+
+.outfit {
+    outfitid 0 : string
+    count 1 : integer
+}
+
+
+.underling {
+    id 0 : string
+    # 等级
+    level 1 : integer
+    # 品质
+    quality 2 : integer
+    # 资质
+    aptitudes 3 : *aptitude(id)
+    # 吃书加成
+    books 4 : *book(type)
+    # 光环等级
+    auralevel 5 : integer
+    # pvp技能等级
+    pvplevel 6 : integer
+    # pvp技能当前经验
+    pvpexp 7 : integer
+    # 升级资质所用exp之前的q0
+    q0 8 : integer
+    # 属性总值
+    total 9 : integer
+    # 升级进度
+    exp 10 : integer
+    # 时装
+    outfits 11 : *outfit(outfitid)
+    # 当前时装
+    curOutfit 12 : string
+}
+
+.miracle {
+    id 0 : string
+    # 是用过的次数
+    count 1 : integer
+	# 附带参数，办公同一个count有两个含义
+	extraType 2 : integer
+}
+
+.vip {
+    # vip 等级
+    level 0 : integer
+    # 神迹
+    miracles 1 : *miracle(id)
+}
+
+# 办公-生产
+.product {
+    # 生产队里id，详见生产表第一列
+    id 0 : string
+    # 可生产次数
+    times 1 : integer
+    # 下一点生产次数恢复时间，终结时间。可以为空。
+    recovery 2 : integer
+}
+
+# 办公-公务
+.business {
+    # 当前任务id
+    id 0 : string
+    # 奖励的物品 2选1
+    reward 1 : item
+    # 奖励的经验 2选1
+    exp 2 : integer
+    # 下一点生产次数恢复时间，终结时间
+    recovery 3 : integer
+    # 剩余次数，包括当前次
+    times 4 : integer
+}
+
+.shopgift {
+    id 0 : string
+    # 结束时间
+    finish 1 : integer
+    # 代表活动uid，uid不同代表不是同一次内容
+    uid 2 : string
+    subtype 3:integer
+}
+
+.ushop {
+    # EHeroEvents表
+    cid 0 : string
+    start 1 : integer
+    finish 2 : integer
+}
+
+.shopgiftsales {
+    id 0 : string
+    count 1 : integer
+    uid 2 : string
+}
+
+# 办公相关数据
+.office {
+    # 生产数据
+    products 0 : *product(id)
+    # 办公数据
+    business 1 : business
+}
+
+.collect {
+    id 0 : string
+    collected 1 : boolean
+}
+
+.pveunderlingstatus {
+    # 手下id
+    id 0 : string
+    # 是否出战过
+    fight 1 : boolean
+    # 是否吃过药
+    drug 2 : boolean
+}
+
+.hostage {
+    id 0 : string
+    # 已拷问的次数
+    times 1 : integer
+    # cd时间
+    cd 2 : integer
+}
+
+.rewardsInfo{
+    rewards 0 : *item(id)
+    extra 1 : item
+	buffReward 2 : item
+}
+
+.bodybuilding {
+    # 手下id
+    id 0 : string
+    # 健身结束时间
+    finish 1 : string
+    # 月卡格子标识
+    extra 2 :integer
+}
+
+# 单人BOSS相关数据
+.singleboss {
+    # 记录战斗日期，如果与当前日期不符则会被重置
+    date 0 : string
+    # 当前正在攻击的BOSS
+    id 1 : string
+    # 当前BOSS血量
+    hp 2 : integer
+    # 手下是否出战状态
+    underlingstatus 3 : *pveunderlingstatus(id)
+    #历史boss奖励的列表
+    bossReword 4 : *item
+    #宝箱奖励，为0说明这次没有宝箱
+    boxReword 5 : string
+    #抢到宝箱的id
+    chestArr 6 : *string
+    #抢到宝箱的item
+    chestItemArr 7 :*item
+    #历史掉落宝箱的BossID列表
+    ownerChests 8 : *string
+
+}
+
+# 多人BOSS
+.coopboss {
+    # 记录战斗日期，如果与当前日期不符则会被重置
+    date 0 : string
+    underlingstatus 1 : *pveunderlingstatus(id)
+    # 当前BOSS血量
+    hp 2 : integer
+    # 是否已领奖
+    hasGain 3 : boolean
+    #当前Boss累积积分
+    actScore 4 : integer
+    level 5 : integer
+}
+
+.cannon {
+    level 0 : integer
+    exp 1 : integer
+    # 本日使用次数
+    times 2 : integer
+}
+
+# 关卡相关信息/单机小系统（人质、健身）
+.pve {
+    chapter 0 : integer
+    level 1 : integer
+    step 2 : integer
+    hp 3 : integer
+    # 章节奖励是否领取
+    chaptercollects 4 : *collect(id)
+    # 手下是否出战状态
+    underlingstatus 5 : *pveunderlingstatus(id)
+    # 保护费
+    hostages 6 : *hostage(id)
+    # 健身房解锁数量
+    bbunlock 7 : integer
+    bb 8 : *bodybuilding(id)
+    #  单人BOSS相关
+    singleboss 9 : singleboss
+    # 多人BOSS相关
+    coopboss 10 : coopboss
+    # BOSS 商店状态，可能为空
+    bossshop 11 : *item(id)
+    # 加农炮
+    cannon 12 : cannon
+	# 本周悬赏派遣的列表
+	reignQuestUnderlingList 13 : *string
+	# 商店兑换情况
+	reignQuestShopData 14 : *reignQuestShopData(shopID)
+}
+
+.dailytask {
+    # 任务id
+    id 0 : string
+    # 进度
+    count 1 : integer
+    # 是否领取过
+    picked 2 : boolean
+}
+
+.stats {
+    # 物品使用统计，id为使用物品id，count为使用总数量
+    itemuse 0 : *item(id)
+    # 系统使用统计，id为Task表中taskType列的注释中使用的id tostring
+    system 1 : *item(id)
+    # 每日任务统计
+    daily 2 : *dailytask(id)
+    # 领取过的活跃奖励
+    activities 3 : *string
+    # 成就领取信息, count 为已领取等级 id 为Achievement表_id前半段
+    achievements 4 : *item(id)
+}
+
+# 限时任务结构
+.tlt {
+    # 对应TLTGroup表_id
+    id 0 : string
+    # mask 值，表示某个级别奖励是否领取
+    pick 1 : integer
+    # 初始值, 该任务在初始时对应的数值
+    init 2 : integer
+    # 开始结束时间
+    start 3 : integer
+    finish 4 : integer
+}
+
+.tlr {
+    # LimitRankType表_id
+    typ 0 : string
+    # 开始结束时间
+    start 1 : integer
+    # 结束时间
+    finish 2 : integer
+    # 领奖结束
+    collect 3 : integer
+    # 初始值, 该任务在初始时对应的数值
+    init 4 : integer
+    uid 5 : string
+}
+
+.tlrRemindInfo {
+	# 自己当前的排名
+	rank 0 : integer
+	# 对比展示的排名
+	aimRank 1 : integer
+	# 和目标的分差
+	scoreGap 2 : integer
+	# 冲榜任务类型
+	type 3 : string
+}
+
+.tasks {
+    stats 0 : stats
+    # 主线任务当前进度
+    trunk 1 : string
+    # 限时任务
+    tlt 2 : *tlt(id)
+    tlr 3 : *tlr(typ)
+    cross 4: *crossInfo(configId)
+	# 连休活动数据
+	restDay 5: restDay
+	# 月初活动
+	monthEvent 6: monthEvent
+    # 时装商店活动
+    heroOutfitEvent 7 : heroOutfitEvent
+	# 4星时装商店活动
+    rareOutfitEvent 8 : rareOutfitEvent
+	anniversaryEvent 9 : anniversaryEvent
+	newOutfitEvent 10 : newOutfitEvent
+}
+
+.skill {
+    id 0 : string
+    # 等级
+    level 1 : integer
+    # 星数
+    star 2 : integer
+}
+
+.wifeItem {
+    wifeItemId 0 : string
+    count 1 : integer
+}
+
+.beauty {
+    id 0 : string
+    # 好感，在未获得时这个值有意义
+    like 1 : integer
+    # 是否拥有
+    own 2 : boolean
+    # 亲密度
+    intimacy 3 : integer
+    # 魅力
+    charm 4 : integer
+    # 经验
+    exp 5 : integer
+    # 美女技能
+    skills 6 : *skill(id)
+    # 妃位，WifeLevel表id列
+    position 7 : string
+    # 才艺活动id
+    activity 8 : integer
+    # 时装
+    outfits 9 : *outfit(outfitid)
+    # 当前时装
+    curOutfit 10 : string
+    # 激活老婆道具次数
+    wifeItem 11 : *wifeItem
+	teamId 12 : string
+    #遇见最大次数
+    findCount 13 : integer
+}
+
+# 美女 + 出游
+.beautysystem {
+    # 下点出游体力恢复时间点
+    fe 0 : integer
+    # 下点出游幸运恢复时间点
+    fl 1 : integer
+    # 下点约会精力恢复时间点
+    de 2 : integer
+    # 美女
+    beautys 3 : *beauty(id)
+    # 免费幸运恢复次数
+    freefl 4 : integer
+}
+
+# 合作方信息
+.cooperation {
+    id 0 : integer
+    name 1 : string
+    vassal 2 : vassal
+    # 合作时间
+    time 3 : integer
+    #贸易地名称
+    vassalName 4 : string
+    #合作人用的道具
+    useitem 5 : integer
+	buffid 6 : string
+}
+
+# 全服贸易清单里的 合作方信息
+.cooperationforlist {
+    id 0 : integer
+    name 1 : string
+    vassal 2 : vassal
+    # 合作时间
+    time 3 : integer
+    #贸易地名称
+    vassalName 4 : string
+    #合作人用的道具
+    useitem 5 : integer
+	title 6 : string
+	level 7 : integer
+	allTitles 8 : *string
+	buffid 9 : string
+}
+
+# 附庸
+.vassal {
+    # 四种属性
+    I 0 : integer
+    F 1 : integer
+    E 2 : integer
+    S 3 : integer
+    # 主要属性
+    main 4 : string
+    # 关联美女ID
+    beauty 5 : string
+    # 风险恢复时间点
+    recovery 6 : integer
+    id 7 : string
+    # 当前经验
+    exp 8 : integer
+    # 当前等级
+    level 9 : integer
+    # 品质
+    quality 10 : string
+    # 暴露风险
+    ce 11 : integer
+    # 合作方
+    cooperation 12 : cooperation
+    # 全服匹配时可选的目标
+    cancooperate 13 : *cooperation
+    # 全服匹配推荐cd结束时间
+    cd 14 : integer
+    # 是否分配了地盘，如果已经分配值为“domain”
+    location 15 : string
+    # 合作时使用的物品0：免费，1：物品，2：钻石
+    coopitem 16 : integer
+    # 指定合作方id
+    cooperationid 17 : integer
+    #美女初始时品质
+    beautyQuality 18 :integer
+    #贸易地名称
+    name 19:string
+    #推荐刷新CD
+    suggestCd 20:integer
+    #创建时间
+    createtime 21:integer
+    # 指定合作方名字
+    cooperationName 22 : string
+    coopSuccItem 23 :integer
+    extraBlock 24:integer
+	isOwnTeam 25: boolean
+	teamMembers 26 : *string
+	teamLeader 27 : string
+	rejectReason 28 : integer
+	buffid 29 : string
+}
+
+# 附庸系统
+.vassalsystem {
+    # 已经解锁的数量
+    unlock 0 : integer
+    vassals 1 : *vassal(id)
+    curPage 2 : integer
+    totalPage 3 : integer
+}
+
+# 才艺活动
+.activityunit {
+    # 玩家id
+    id 0 : integer
+    beauty 1 : beauty
+    # 开始时间
+    time 2 : integer
+    # 玩家昵称
+    name 3 : string
+    # 工会信息
+    guild 4 : guildsimple
+    # 活动中的位置 1 -- X
+    position 5 : integer
+}
+
+# 才艺活动
+.beautyactivity {
+    id 0 : string
+    creator 1 : integer
+    # 保护完结时间，如果比当前时间大说明还是处于保护状态中
+    protect 2 : integer
+    # 对应的配置
+    cid 3 : string
+    # 完结时间
+    finish 4 : integer
+    # 活动中的美女
+    units 5 : *activityunit
+    # 踢掉的人
+    kicked 6 : *item(id)
+}
+
+
+.areanaunderling {
+    # 手下id
+    id 0 : string
+    # 属性总值
+    hpbase 1 : integer
+    # 当前hp，为0说明死了
+    hp 2 : integer
+    # 基础攻击力
+    atkbase 3 : integer
+    # 攻击力
+    atk 4 : integer
+    # 等级
+    level 5 : integer
+    # pvp 技能等级
+    pvplevel 6 : integer
+    # 技能强化百分比
+    strengthen 7 : integer
+    # 品质
+    quality 8 : integer
+    # atk buff增加值
+    atkbuff 9 : integer
+    # 当前时装
+    curOutfit 10 : string
+}
+
+# 竞技场对手信息
+.areanacharacter {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    underlings 3 : *areanaunderling(id)
+    # 敌方出战的手下
+    selecteds 4 : *string
+    score 5 : integer
+    level 6 : integer
+    guild 7 : string
+    # 使用的称号
+	title 8:string
+	# 拥有的所有称号
+    allTitles 9:*string
+    headInfo 10 : headInfo
+    avatartype 11 : integer
+}
+
+.areanarevengecharacter {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    underlingcount 3 : integer
+    # 总战力
+    total 4 : integer
+    # 排名
+    rank 5 : integer
+    # 等级
+    level 6 : integer
+    # 分数
+    score 7 : integer
+    avatartype 8 : integer
+}
+
+.chaseinfo {
+    id 0 : integer
+    count 1 : integer
+}
+
+.buffcount {
+	id 0 : string
+    count 1 : integer
+}
+
+.areana {
+    # 对方数据
+    target 0 : areanacharacter
+    # 我的数据，只有手下数据
+    mine 1 : areanaunderling
+    # 当前分数
+    score 2 : integer
+    # 战斗类型、免费次数匹配 : 1、 出战令匹配 : 2、挑战AC : 3、复仇AC : 4、追杀AH : 5、无任何战斗 : 0
+    type 3 : integer
+    # 免费竞技场次数
+    freeareana 4 : integer
+    # 出战令
+    underlingareana 5 : integer
+    # 免费次数cd
+    areanacd 6 : integer
+    # 加成 当本值不为空时说明处于选择加成阶段,id 为表中的id， count为加成百分比
+    buffs 7 : *item
+    # 使用过的手下id，在复仇、追杀等可以指定手下的地方会被记录
+    usedunderlings 8 : *string
+    # 使用过的手下id，在普通匹配、出战令可以指定手下的地方会被记录
+    matchedunderlings 9 : *string
+    # 上次挑战过的玩家
+    last 10 : charactersimple
+    # 已经选择的BUFF
+    selectedbuff 11 : integer
+    # 本次随机出的所有武将
+    mineList 12 : *areanaunderling
+    # 每日免费指定出战次数
+    arenaFreeAssignDaily 13 : integer
+    # 竞技场三胜奖励
+    arenaBonusBoxRecore 14 : *item
+    # 大臣指定Flag
+    manualSelect 15:boolean
+    #tlt 积分
+    tltScore 16:integer
+    #追捕次数
+    chasetime 17 : *chaseinfo(id)
+	buffCount 18 : *buffcount(id)
+	reignbuff 19 : reignbuffinfo
+}
+
+.reignbuffinfo {
+	buffid 0 : string
+	buffcount 1 : integer
+}
+
+.pvp {
+    areana 0 : areana
+}
+
+
+.arenamessage {
+    # 玩家id
+    id 0 : integer
+    # 玩家名称
+    name 1 : string
+    # 头像
+    avatar 2 : string
+    # 击杀数量
+    beatcount 3 : integer
+    # 对手名字
+    enemyname 4 : string
+    # 连胜次数
+    straight 5 : integer
+    # 使用手下
+    underling 6 : string
+    time 7 : integer
+    # 是否全歼
+    allbeat 8 : boolean
+	# 使用的称号
+	title 9:string
+	# 拥有的所有称号
+    allTitles 10:*string
+    avatartype 11 : integer
+}
+
+# 跨服竞技场手下数据
+.crossarenaunderling {
+    # 手下id
+    id 0 : string
+    # 属性总值
+    hpbase 1 : integer
+    # 当前hp，为0说明死了
+    hp 2 : integer
+    # 基础攻击力
+    atkbase 3 : integer
+    # 攻击力
+    atk 4 : integer
+    # 等级
+    level 5 : integer
+    # pvp 技能等级
+    pvplevel 6 : integer
+    # 技能强化百分比
+    strengthen 7 : integer
+    # 品质
+    quality 8 : integer
+    # atk buff增加值
+    atkbuff 9 : integer
+    # 当前时装
+    curOutfit 10 : string
+}
+
+# 跨服竞技场对手信息
+.crossarenacharacter {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    underlings 3 : *crossarenaunderling(id)
+    # 敌方出战的手下
+    selecteds 4 : *string
+    score 5 : integer
+    level 6 : integer
+    guild 7 : string
+    # 使用的称号
+	title 8:string
+	# 拥有的所有称号
+    allTitles 9:*string
+    headInfo 10 : headInfo
+    avatartype 11 : integer
+}
+
+.crossarenarevengecharacter {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    underlingcount 3 : integer
+    # 总战力
+    total 4 : integer
+    # 排名
+    rank 5 : integer
+    # 等级
+    level 6 : integer
+    # 分数
+    score 7 : integer
+    avatartype 8 : integer
+}
+
+.crossarena {
+    # 对方数据
+    target 0 : crossarenacharacter
+    # 我的数据，只有手下数据
+    mine 1 : crossarenaunderling
+    # 当前分数
+    score 2 : integer
+    # 战斗类型、免费次数匹配 : 1、 出战令匹配 : 2、挑战AC : 3、复仇AC : 4、追杀AH : 5、无任何战斗 : 0
+    type 3 : integer
+    # 免费竞技场次数
+    freearena 4 : integer
+    # 出战令
+    underlingarena 5 : integer
+    # 免费次数cd
+    arenacd 6 : integer
+    # 加成 当本值不为空时说明处于选择加成阶段,id 为表中的id， count为加成百分比
+    buffs 7 : *item
+    # 使用过的手下id，在复仇、追杀等可以指定手下的地方会被记录
+    usedunderlings 8 : *string
+    # 使用过的手下id，在普通匹配、出战令可以指定手下的地方会被记录
+    matchedunderlings 9 : *string
+    # 上次挑战过的玩家
+    last 10 : charactersimple
+    # 已经选择的BUFF
+    selectedbuff 11 : integer
+    # 本次随机出的所有武将
+    mineList 12 : *crossarenaunderling
+    # 每日免费指定出战次数
+    arenaFreeAssignDaily 13 : integer
+    # 竞技场三胜奖励
+    arenaBonusBoxRecore 14 : *item
+    # 大臣指定Flag
+    manualSelect 15:boolean
+    #tlt 积分
+    tltScore 16:integer
+    #追捕次数
+    chasetime 17 : *chaseinfo(id)
+	buffCount 18 : *buffcount(id)
+	reignbuff 19 : reignbuffinfo
+}
+
+.crossarenagame {
+    configId 0 : string
+
+    start 1:integer
+    finish 2:integer
+    #活动uid
+    uid 3:string
+    arena 4: crossarena
+}
+
+
+.sevenday {
+    # 当天是否登录
+    logined 0 : boolean
+    # 是否领取普通奖励
+    normal 1 : boolean
+    # 是否领取特殊奖励
+    special 2 : boolean
+}
+
+.recentlyChat {
+    id 0 :string
+    #最后聊天时间
+    time 1:integer
+    # 未读消息条数
+    unread 2 :integer
+}
+
+.cardWeekReward{
+    #"monthcard", "acecard"
+    id 0:string
+    #next gain time
+    time 1:integer
+    #gain count
+    count 2:integer
+}
+.headInfo{
+    #头像类型
+    type 0 : integer 
+    #头像id
+    picture 1 : string
+    #框id
+    frame 2 : string 
+}
+
+.headData{
+    headId 0: string
+}
+
+.frameData{
+    frameId 0: string
+}
+
+.headList{
+    # 0-默认、1-称号、2-大臣、3-老婆、4-大臣时装、5-老婆时装
+    type 0 :integer
+    headInfo 1 : *headData
+}
+
+.global {
+    # 7日登录奖励
+    sevendays 0 : *sevenday
+    # 限时礼包，销售记录, 可能为空
+    shopgiftsales 1 : *shopgiftsales(id)
+    # 单品销售记录, 可能为空
+    itemsales 2 : *item(id)
+    # 金条销售记录, 可能为空
+    goldsales 3 : *item(id)
+    # 是否开启工会功能
+    guild 4 : boolean
+    # 夜店已参与次数
+    partyjoin 5 : integer
+    # 夜店分数（不是用来买东西的，那个是物品）
+    partyscore 6 : integer
+    # vip奖励领取状态，bit mask数,可能为空
+    vipreward 7 : integer
+    # 是否领取长期签到
+    longtermsign 8 : boolean
+    # 累计长签，一直向上增长不会充值，取余计算，可为空
+    acclongterm 9 : integer
+    # 月卡 & 1、至尊月卡 & 2、年卡&4 领取状态
+    cardpick 10 : integer
+    # 普通月卡到期时间，可为空
+    monthcard 11 : integer
+    # 至尊月卡到期时间，可为空
+    acecard 12 : integer
+    # 年卡月卡到期时间，可为空
+    yearcard 13 : integer
+    # 致敬mask value
+    rankvisit 15 : integer
+    # 工会物品购买状况
+    guildbuy 16 : *item(id)
+    # 收取陌生人消息
+    strangerflag 17: integer
+    recentlyChat 18: *recentlyChat(id)
+    serverMail 19: *mailStatus(id)
+    cardWeekRewards 20:*cardWeekReward(id)
+    title 21:string
+	recentlyReadChat 22: *recentlyChat(id)
+    crossOpen 23 : integer
+    headInfo 24: headInfo
+    versionlist 25 : *string
+    reignOpen 26 : integer
+    reignSingleOpen 27 : integer
+    timeoutTitleReward 28 : boolean
+    perfumeInfo 29 : perfumeInfo 
+    normalgiftsales 30 : *shopgiftsales(id)
+    useBubbleID 31 : string
+}
+
+
+.mg1police {
+    # 唯一id
+    uid 0 : string
+    # 配置中的id
+    cid 1 : string
+}
+
+.mg1 {
+    bullet 0 : integer
+    # 子弹恢复时间，逻辑与生产恢复一致
+    recovery 1 : integer
+    feverStartTime 2 : integer
+    # 加子弹道具, count为已购买数量
+    shop 3 : *item(id)
+    # 得分
+    score 4 : integer
+    # 积分
+    credit 5 : integer
+    # 统计，警察id，击杀数量
+    stat 6 : *item(id)
+    # 成就领取信息, count 为已领取等级
+    achievements 7 : *item(id)
+    # 积分商店
+    creditshop 8 : *item(id)
+    # 开始结束
+    start 9 : integer
+    finish 10 : integer
+    rewardTime 11 : integer 
+}
+
+.mg2 {
+    # 加道具, count为已购买数量
+    shop 0 : *item(id)
+    # 得分
+    score 1 : integer
+    # 积分
+    credit 2 : integer
+    # 成就领取信息, count 为已领取等级
+    achievements 3 : *item(id)
+    # 积分商店
+    creditshop 4 : *item(id)
+    # 开始结束
+    start 5 : integer
+    finish 6 : integer
+    #免费召唤
+    dailySummon 7 : integer
+    #免费修改
+	dailyModify 8 : integer
+    #额外召唤
+	extrSummon 9 : integer
+    #额外修改
+	extrModify 10 : integer
+    #当前召唤结果
+	curSummonResult 11 : *integer
+    #当日钻石修改次数
+	goldChangeCount 12 : integer
+    #成就
+    stat 13 : *item(id)
+    rewardTime 14 : integer 
+}
+
+
+.mg3 {
+    # 加道具, count为已购买数量
+    shop 0 : *item(id)
+    # 得分
+    score 1 : integer
+    # 积分
+    credit 2 : integer
+    # 成就领取信息, count 为已领取等级
+    achievements 3 : *item(id)
+    # 积分商店
+    creditshop 4 : *item(id)
+    # 开始结束
+    start 5 : integer
+    finish 6 : integer
+    # 桌子等级
+    tablelevel 7 : integer
+    # 统计
+    stat 8 : *item(id)
+	rewardTime 9 : integer 
+}
+
+.mg5 {
+    # 加道具, count为已购买数量
+    shop 0 : *item(id)
+    # 得分
+    score 1 : integer
+    # 积分
+    credit 2 : integer
+    # 成就领取信息, count 为已领取等级
+    achievements 3 : *item(id)
+    # 积分商店
+    creditshop 4 : *item(id)
+    # 开始结束
+    start 5 : integer
+    finish 6 : integer
+    # 桌子等级
+    tablelevel 7 : integer
+    # 统计
+    stat 8 : *item(id)
+	rewardTime 9 : integer 
+}
+
+.mg6 {
+    # 加道具, count为已购买数量
+    shop 0 : *item(id)
+    # 得分
+    score 1 : integer
+    # 积分
+    credit 2 : integer
+    # 成就领取信息, count 为已领取等级
+    achievements 3 : *item(id)
+    # 积分商店
+    creditshop 4 : *item(id)
+    # 开始结束
+    start 5 : integer
+    finish 6 : integer
+    # 桌子等级
+    tablelevel 7 : integer
+    # 统计
+    stat 8 : *item(id)
+	rewardTime 9 : integer 
+}
+
+.mg7 {
+    # 加道具, count为已购买数量
+    shop 0 : *item(id)
+    # 得分
+    score 1 : integer
+    # 积分
+    credit 2 : integer
+    # 成就领取信息, count 为已领取等级
+    achievements 3 : *item(id)
+    # 积分商店
+    creditshop 4 : *item(id)
+    # 开始结束
+    start 5 : integer
+    finish 6 : integer
+    # 桌子等级
+    tablelevel 7 : integer
+    # 统计
+    stat 8 : *item(id)
+	rewardTime 9 : integer 
+}
+
+
+.minigame {
+    mg1 0 : mg1
+    mg2 1 : mg2
+    mg3 2 : mg3
+    mg4 3 : mg3
+    mg5 4 : mg5
+	mg6 5 : mg6
+    mg7 6 : mg5
+}
+
+.navigation {
+    stamina 0:integer
+    # 开始结束
+    start 1 : integer
+    finish 2 : integer
+    # 统计
+    stat 3 : *item(id)
+    uid 4:string
+}
+
+.mausoleum {
+    stamina 0:integer
+    # 开始结束
+    start 1 : integer
+    finish 2 : integer
+    uid 3:string
+    templateId 4 : string
+    #资源商店次数
+    shop 5 : *item(id) 
+    #积分商店次数
+    scoreShop 6 : *item(id) 
+    #血量倍数
+    multi 7 : integer
+}
+
+.gachataskinfo {
+    id 0 : string
+    count 1 : integer
+    isGet 2 : boolean
+}
+
+.gachastoryinfo {
+    id 0 : string
+    getTime 1 : integer
+    isGet 2 : boolean
+}
+
+.gacharecordinfo {
+		rewards 0 : *item(id)
+		currank 1 : integer
+		totalrank 2 : integer
+		recordid 3 : string
+		areaid 4 : integer
+		nMarkingValue 5 : integer
+}
+
+.gacharankinfo {
+    rank 0 : integer
+    user 1 : rankcharacter
+    recordInfo 2 : gacharecordinfo
+}
+
+.gachachatinfo {
+	recordid 0 : string
+	count 1 : integer
+	areaid 2 : integer
+}
+
+.gachaevent {
+    nAcitityScore 0 : integer
+    nShopId 1 : integer
+    tExtraShopList 2 : *item(id)
+    tSpecialGift 3 : *item(id)
+    tDailySpecialGift 4 : *item(id)
+    tTaskInfo 5 : *gachataskinfo(id)
+    tScoreList 6 : *string
+    tStoryReward 7 : *gachastoryinfo(id)
+}
+
+.gachaeventinfo {
+    templateId  0 : string
+	actId 1 :string
+    uid 2 :string
+	start 3 : integer
+	finish 4 : integer
+	rewardTime 5 : integer
+	shopTmpId 6 : string
+    gachaevent 7 : gachaevent
+    nextStart 8 : integer
+    nextFinish 9 : integer
+    oneActivityName 10 : string
+    twoActivityName 11 : string
+    serverIds 12 : *string
+}
+
+
+.luckybagTaskinfo {
+    id 0 : string
+    count 1 : integer
+    isGet 2 : boolean
+}
+
+.luckybagInfo {
+    typ 0 : string
+    uid 1 : string
+    finish 2 : integer
+    start 3 : integer
+    templateId 4 : string
+    taskList 5 : *luckybagTaskinfo(id)
+    itemList 6 : *item(id)
+    tGiftList 7 : *item(id)
+}
+
+.rankbonusTaskinfo {
+    id 0 : string
+    count 1 : integer
+    isGet 2 : boolean
+}
+
+.rankbonusInfo {
+	typ 0 : string
+	uid 1 : string
+	finish 2 : integer
+	start 3 : integer
+	taskList 4 : *rankbonusTaskinfo(id)
+	goldShop 5 : *item(id)
+	exchange 6 : *item(id)
+	currentDay 7 : integer
+}
+
+.teamgame {
+    navigation 0 :navigation
+    mausoleum 1 : mausoleum
+}
+
+.crossgame {
+    crossarena 0 : crossarenagame
+    mausoleum 1 : mausoleum
+    gachaevent 2 : gachaeventinfo
+}
+
+.character {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    level 4 : integer
+    beauty 5 : beautysystem
+    office 6 : office
+    #vassal 7 : vassalsystem
+    # 充值金额，分
+    recharge 9 : integer
+    # 手下
+    underlings 10 : *underling(id)
+    # 背包
+    items 11 : *item(id)
+    # 关卡信息
+    pve 12 : pve
+    tasks 13 : tasks
+    # 总属性
+    I 14 : integer
+    F 15 : integer
+    E 16 : integer
+    S 17 : integer
+    global 18 : global
+    pvp 19 : pvp
+    SB 20 : integer
+    guide 21 : string
+    minigame 22 : minigame
+    teamgame 23 : teamgame
+	patrolTeamList 24 : *integer
+    crossgame 25:crossgame
+    create 26 : integer
+    avatartype 27 : integer
+	intimacy 28 : integer
+}
+
+.activitystatus {
+    # 限时商店信息，销售信息在office中
+    shopgifts 0 : *shopgift(id)
+    # 单人BOSS系统是否开启
+    singleboss 1 : boolean
+    singlebossstart 2 : integer
+    singlebossend 3 : integer
+    # 多人BOSS系统是否开启, 1 未开启，2正在开启，3已结束（BOSS被弄死了）
+    coopboss 4 : integer
+    coopbossstart 5 : integer
+    coopbossend 6 : integer
+    # 卖手下活动
+    ushop 7 : *ushop(cid)
+}
+
+.mail {
+    id 0 : string
+    type 1 : string
+    content 2 : string
+    time 3 : integer
+	expire 4 : integer
+}
+
+.areanamessage {
+    # 玩家id
+    id 0 : integer
+    # 玩家名称
+    name 1 : string
+    # 称号
+    avatar 2 : string
+    # 击杀数量
+    beatcount 3 : integer
+    # 对手名字
+    enemyname 4 : string
+    # 连胜次数
+    straight 5 : integer
+    # 使用手下
+    underling 6 : string
+    time 7 : integer
+    # 是否全歼
+    allbeat 8 : boolean
+	# 使用的称号
+	title 9:string
+	# 拥有的所有称号
+    allTitles 10:*string
+    #头像信息
+    headInfo 11 : headInfo
+    #充值数据
+    recharge 12 : integer
+    avatartype 13 : integer
+}
+
+.guildMemberUnderlingInfo {
+    underlingId 0 :string
+    fight 1 :boolean
+    drug 2 :boolean
+}
+
+.guildMemberBossInfo {
+    underlings 0 : *guildMemberUnderlingInfo(underlingId)
+}
+
+.guildMemberActInfo {
+    guildboss 0 : guildMemberBossInfo
+}
+
+.guildcharacter {
+    # 玩家id
+	id 0 : integer
+    # 玩家名字
+	name 1 : string
+	level 2 : integer
+	avatar 3 : string
+	recharge 4 : integer
+    # 总战力
+	total 5 : integer
+    # 历史贡献
+    contribute 6 : integer
+    # 上次登录时间
+    logintime 8 : integer
+    ccoin 9 : integer
+    cd 10 : integer
+    authority 11 : integer
+    # 工会任务领取mask
+    taskpick 12 : integer
+    # 建设类型
+    gbuild 13 : string
+    #发送全局广播次数
+    broadcast 14 : integer
+    # 使用的称号
+	title 15:string
+	# 拥有的所有称号
+    allTitles 16:*string
+	# 上次下线时间
+    logouttime 17 : integer
+    actInfo 18 : guildMemberActInfo
+    headInfo 19 : headInfo
+    avatartype 20 : integer
+}
+
+.guildrequest {
+    # 玩家id
+    cid 0 : integer
+    name 1 : string
+    level 2 : integer
+    avatar 3 : string
+    recharge 4 : integer
+    # 战力
+    total 5 : integer
+    # 上次登录时间
+    logintime 6 : integer
+    # 申请时间
+    time 7 : integer
+    # 使用的称号
+	title 8:string
+	# 拥有的所有称号
+    allTitles 9:*string
+    # 上次登出时间
+    logouttime 10 : integer
+    headInfo 11 : headInfo
+    avatartype 12 : integer
+}
+
+.receiveUserData{
+	userID 0: string
+	userName 1: string
+	receiveTime 2: integer
+}
+
+.guildGiftData{
+	buyUserID 0 : string
+	buyUserName 1 : string
+	buyTime 2 : integer
+	receiveUserData 3 : *receiveUserData(userID)
+}
+
+.guildGiftInfo{
+	giftID 0 : string
+	# 1就是公会礼包，buyUserID的map只有一个,0就是非公会礼包，有多人购买
+	isGuildGift 1 : integer
+	guildGiftData 2: *guildGiftData(buyUserID)
+}
+
+.sendGiftData{
+	buyUserID 0 : string
+	buyUserName 1 : string
+	buyTime 2 : integer
+	# 广播同步的时候 isReceived都是0，客户端主动发起请求，带了玩家ID过来，0就是没领取,1就是领取了
+	isReceived 3 : integer
+	# 该礼包目前领取的人数
+	receiveUserNum 4 : integer
+}
+
+.sendGiftInfo{
+	giftID 0 : string
+	# 1就是公会礼包，buyUserID的map只有一个,0就是非公会礼包，有多人购买
+	isGuildGift 1 : integer
+	guildGiftData 2: *sendGiftData(buyUserID)
+}
+
+.guild {
+    id 0 : integer
+    name 1 : string
+    flag 2 : string
+    facebook 3 : string
+    declaration 4 : string
+    notice 5 : string
+    # 1 开放随机加入 0 不开放
+    publictype 6 : integer
+    exp 7 : integer
+    level 8 : integer
+    # 财富
+    fortune 9 : integer
+    # 总战力
+	total 10 : integer
+    # 成员
+    members 11 : *guildcharacter
+    rank 13 : integer
+    # 完成的任务量
+    task 14 : integer
+    # 全局任务id
+    G_TASK 15 : string
+    #密码
+    password 16 : string
+    #公告修改次数
+    modifycount 17:integer
+    # 成员数量 (需要成员人数,不要具体成员数据时用,如防止查询公会基础信息会员信息过多)
+    membersCount 18:integer
+    #会长名字
+    leaderName 19: string
+	#公会每日建造总次数
+	gbuildcount 20: integer
+}
+
+.guildsimple {
+    id 0 : integer
+    name 1 : string
+    flag 2 : string
+    level 3 : integer
+}
+
+.guildBossRecord {
+    id 0:integer
+    underling 1 :string
+    atk 2:integer
+    atkTime 3 :integer
+}
+
+
+.guildBossInfo {
+    confId 0 :string
+    curState 1 :integer
+    bossHp 2:integer
+    bossTotalHp 3 :integer
+    #每人的每个武将攻击记录list
+    recordList 4: *guildBossRecord
+    #参加过的帮派成员map
+    joiners 5:*rankcharacter
+    #全部获得的帮派Exp
+    totalGuildExp 6 : integer
+    #boss开启时间
+    startTime 7:integer
+    #击退时间
+    finishTime 8:integer
+}
+
+
+.memberBossReward {
+    atk 0 : integer
+    ccoin 1 :integer
+    memberId 2:integer
+    confId 3: string
+    activityCoin 4 : integer
+    activityCoinItem 5 : string
+}
+
+.friend {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    # 国力
+    total 3 : integer
+    # 充值点数
+    recharge 4 : integer
+    # 关系 0:请求为好友，1:好友 2:拒绝，3:黑名单 4:互为黑名单
+    status 5 : integer
+    # 上次登录时间为0在线
+    login 6 : integer
+    # 状态发起者？
+    actionuser 7 : integer
+    # 工会名称
+    gname 8 : string
+    title 9:string
+    allTitles 10:*string
+    # 上次登出时间
+    logout 11 : integer
+    headInfo 12 :headInfo
+    avatartype 13 : integer
+}
+
+.rankcharacter {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    score 3 : integer
+    recharge 4 : integer
+    level 5 : integer
+    guild 6: string
+    F 7:integer
+    title 8:string
+    allTitles 9:*string
+    rank 10: integer
+    headInfo 11 :headInfo
+    titleCount 12 : integer
+    avatartype 13 : integer
+}
+
+# 三种不同奖励的配置
+.atextra {
+    a 0 : string
+    b 1 : string
+    c 2 : string
+}
+
+.atvalue {
+    value 0 : integer
+    pick 1 : integer
+    isMoney 2 : boolean
+}
+
+# 充值信息
+.atcontext {
+    a 0 : atvalue
+    b 1 : atvalue
+    c 2 : atvalue
+}
+
+.chatmessage {
+    # 发送者
+    sender 0 : integer
+    # 内容类型，1 文字 2 表情 3 分享手下 4 分享附属 5 分享情人，2--5为id
+    typ 1 : integer
+    content 2 : string
+    time 3 : integer
+    # 宝箱内容
+    chestbox 4:chestBox
+    #messageId
+    id 5:integer
+	crossChannelName 6 : string
+	# 发送者气泡框ID
+    useBubbleID 7 : string
+    gachachatinfo 8 : gachachatinfo
+}
+
+.chestBox {
+    boxId 0 : string
+    ownerId 1 : integer
+    openInfos 2 : *boxRewardInfo
+}
+
+.boxRewardInfo {
+    name 0 : string
+    index 1 : integer
+}
+
+.navigationTeamMember {
+    id 0:integer
+    name 1: string
+    score 2:integer
+    attack 3:integer
+    recharge 4:integer
+    avatar 5:string
+    title 6:string
+    allTitles 7:*string
+    headInfo 8: headInfo
+	guildID 9: integer
+    avatartype 10 : integer
+}
+
+
+.navigationRequestChar {
+    id 0 : integer
+    name 1 : string
+    avatar 2 : string
+    score 3 : integer
+    recharge 4 : integer
+    level 5 : integer
+    guild 6: string
+    F 7:integer
+    requestTime 8:integer
+    title 9:string
+    allTitles 10:*string
+    headInfo 11 : headInfo
+    avatartype 12 : integer
+}
+
+
+.navigationTeam {
+    id 0 : integer
+    teamName 1:string
+    needAttack 2: integer
+    acceptType 3:integer
+    leaderName 4:string
+    totalAttack 5:integer
+    teamDesc 6:string
+    members 7:*navigationTeamMember
+    totalScore 8:integer
+    dailyEnterCount 9:integer
+    requestList 10:*navigationRequestChar
+    curArea 11:string
+    dailyKickCount 12:integer
+    
+}
+
+.navigationRecord{
+    recordTime 0:integer
+    #item, boat, score, box
+    eventType 1: string
+    configId 2:string
+    addScore 3:integer
+    items 4: *item
+    name 5:string
+    fighter 6:string
+    curAttack 7:integer
+    curHp 8:integer
+}
+
+
+.navigationEvent {
+    ownerId 0 : integer
+    #item boat score box boxgain
+    eventType 1 :string
+    configId 2:string
+    leftHp 3:integer
+    totalHp 4: integer
+    cdTime 5:integer
+    uuid 6:integer
+    ownerName 7 :string
+}
+
+.navigationInfo {
+    curArea 0:string
+    stamina 1:integer
+    joinHeros 2: *string
+    #event为空说明可以探索
+    curEvent 3:navigationEvent
+    teamEvent 4:*navigationEvent
+    staminaCD 5:integer
+    totalAttack 6:integer
+    totalScore 7:integer
+    #成就
+    stat 8 : *item(id)
+    # 成就领取信息, count 为已领取等级
+    achievements 9 : *item(id)
+    # 加道具, count为已购买数量
+    shop 10 : *item(id)
+    start 11 : integer
+    finish 12 : integer
+    serverDay 13 : integer
+    rewardTime 14 : integer
+}
+
+
+.addPro {
+    proType 0 :string
+    value 1 :integer
+}
+
+
+.crossInfo {
+    configId 0 : string
+    serverIds 1 : *string
+    start 2:integer
+    finish 3:integer
+    #活动uid
+    uid 4:string
+    ticket 5:string
+    areaId 6 : string
+}
+
+.exchangeInfo {
+    typ 0 : string
+    start 1 : string
+    finish 2 :string
+    uid 3 :string
+}
+
+.wifeAdInfo {
+    typ 0 : string
+    start 1 : string
+    finish 2 :string
+    uid 3 :string
+}
+
+.exchangeRecord {
+    outfitItemId 0 : string
+    count 1 : integer
+}
+
+.exchangeRecordInfo {
+    typ 0 : string
+    info 1 : *exchangeRecord
+}
+
+
+
+
+#玩家攻击boss的武将信息
+.bossUnderlingInfo {
+    underlingId 0 :string
+    fight 1 :boolean
+    drug 2 :boolean
+}
+
+#玩家攻击boss的日志，列表显示在gridInfo里
+.mausoleumGridRecord {
+    id 0:integer
+    underling 1 :string
+    atk 2:integer
+    atkTime 3 :integer
+}
+
+.mausoleumRecord{
+    playerName 0:string
+    #boss, box
+    gridType 1: string
+    configId 2:string
+    rewards 3: *item
+    
+}
+
+#玩家的皇陵信息
+.mausoleumPlayerInfo {
+    #武将出战信息
+    underlings 0 : *bossUnderlingInfo(underlingId)
+    #体力上次回复时间，为空大概率表示满体力
+    recoverTime 1 : integer
+    totalScore 2 : integer
+    #资源商店次数
+    shop 3 : *item(id) 
+    #积分商店次数
+    scoreShop 4 : *item(id) 
+    start 5 : integer
+    finish 6 : integer
+    tempId 7 :string
+    #如果为空默认为0
+    multi 8 : integer
+}
+
+
+#双倍活动数据
+.doubleRechargeInfo {
+    start 0 : integer
+    finish 1 : integer
+    #倍率
+    tempId 2 :string
+    #已冲id列表
+    getList 3 : *string
+}
+
+
+#皇陵内容信息，在某些情况下，会没有gridRecord和bossLeftHp字段
+#一个内容里包括多个tileId
+.gridInfo{
+    id 0 : integer
+    #当前状态0：关闭，1：打开，2：结束
+    curState 1 : integer
+    #内容占用的格子
+    useTile 2 : *integer
+    #格子类型，boss，box，empty
+    gridType 3 : string
+    #格子内容id
+    configId 4 : string
+    #boss剩余血量
+    bossLeftHp 5 : integer
+    #格子操作日志
+    gridRecord 6 : *mausoleumGridRecord
+}
+.restDay {
+	#活动uid
+	uid 0:string
+	#活动开始时间
+    start 1:integer
+	#活动结束时间
+	finish 2:integer
+	#活动期间登录天数
+	loginDay 3:integer
+	#持续时间
+	continuedDays 4:integer
+	#领取天数
+	pickDayList 5:*integer
+	isAddToday 6: integer
+	typ 7: string
+}
+
+.dayTaskList {
+	# 月初骗钱每日任务类型
+	taskType 0: integer
+	# 当前完成数量
+	count 1: integer
+}
+
+.scoreShop {
+	# MonthEventShop 的 id
+	id 0: integer
+	# 兑换的次数
+	count 1: integer
+}
+
+.monthEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 每日任务列表
+	dayTaskList 4:*dayTaskList(taskType)
+	# 积分
+	score 5:integer
+	# 领奖列表 	按照MonthEventTask的ID
+	rewardList 6: *integer
+	# 领奖结束时间
+	rewardTime 7: integer
+	# 积分商店数据
+	scoreShop 8: *scoreShop(id)
+}
+
+.troopsCostInfo {
+    nId 0 :integer          #活动id 
+    nStageId 1 :string      #关卡id
+    nEnemyHp 2 :integer     #敌人血量
+    start    3 :integer     #活动开始时间戳
+    finish   4 :integer     #活动结束时间戳
+    tStageReward 5 : *string #阶段奖励领取列表
+    nOpenMapTime 6 : integer #开启藏宝图奖励次数
+    nOpenBoxTiem 7 : integer #开启宝箱次数
+    histroyMaxId 8 : string  #历史最大通关id
+}
+
+.costInfo {
+    nStageId  0 :string #关卡id
+    totalCost 1 : integer  #总消耗
+}
+
+.troopsMapRewardInfo {
+    nIndex 0 : integer #格子编号索引
+    itemInfo 1 : item
+    nCharacterId 2 : integer #挖藏宝图玩家id
+    sName 3 : string  #玩家名字
+}
+
+.troopsBoxRewardInfo {
+    nId 0 : string
+    nType 1 : string
+    nStageId 2 : string #关卡id
+    bOpen 3 : boolean  
+}
+
+.troopscostmapInfo {
+    nId 0 : string #藏宝图id
+    nCharacterId 1 : integer #发现玩家id
+    nType 2 : string #藏宝图类型
+    sName 3 : string #发现玩家名字
+    tRewardList 4 : *troopsMapRewardInfo #藏宝图奖励列表
+    tBoxList 5 : *troopsBoxRewardInfo #宝箱激活列表
+    nOpenTime 6 :  integer   #该藏宝图挖宝次数
+    nStageId 7 : string #关卡id
+    nCreateTime 8 :  integer   #藏宝图创建时间
+}
+
+.taskList {
+	# 时装活动任务类型
+	taskType 0: integer
+	# 当天完成数量
+	curDayCount 1: integer
+    # 当天完成数量
+	totalCount 2: integer
+}
+
+.heroOutfitInfo {
+    # HeroOutfitEventExchange 的 id
+	id 0: integer
+	# 兑换的次数
+	count 1: integer
+}
+
+.heroOutfitEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 每日任务列表
+	taskList 4:*taskList(taskType)
+	# 领奖列表 	按照HeroOutfitEventTask的ID
+	rewardList 6: *integer
+	# 兑换列表
+	exchangeList 7: *heroOutfitInfo(id)
+}
+
+.singleHeroEventData{
+	# 五虎将,四元帅等活动uid (H1,H2)
+	uid 0:string
+	# 开放的武将heroid
+	heroid 1:string
+}
+
+.rareOutfitInfo {
+    # RareOutfitEventExchange 的 id
+	id 0: integer
+	# 兑换的次数
+	count 1: integer
+}
+
+.rareOutfitEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 每日任务列表
+	taskList 4:*taskList(taskType)
+	# 领奖列表 	按照RareOutfitEventTask的ID
+	rewardList 6: *integer
+	# 兑换列表
+	exchangeList 7: *rareOutfitInfo(id)
+}
+
+# type  政务 -- "builder" 经商--"merchant" 
+.statuslist {
+    id 0 : string
+    type 1 : string
+}
+
+.reignlicenseinfo {
+    builder 0: *statuslist
+    merchant 1: *statuslist
+}
+
+.reignBaseData {
+    leaderid 0 : integer
+    step 1 : integer
+    status 2 : integer
+    start 3 : integer
+    finish 4 : integer
+    eventid 6: string
+    eventtime 7 :integer
+    buffid 8 : string
+    reignid 9 : string
+    infolist 10 : *string
+    licenseinfo 11 : reignlicenseinfo
+    buffstate 12 : integer
+}
+
+.recordInfo {
+    characterid 0 : integer
+    activevalue 1 : integer
+    time     2 : integer
+    reignid 3 : string
+    title 4:string
+    name 5 : string
+    license 6 : string
+}
+
+.flagInfo {
+    flag 0 : string
+    emblem 1 : *string
+}
+
+.reignInfo {
+    baseInfo 0 : *reignBaseData
+    rewardList 1 : *string
+    flagInfo 2 : flagInfo
+    worship 3 : string 
+}
+
+.buffinfo {
+	id 0 : string
+	type 1 : string
+	isUsed 2 : boolean
+}
+
+.reignAdInfo {
+    typ 0 : string
+    start 1 : string
+    finish 2 :string
+    uid 3 :string
+}
+
+.foreverGift {
+    id 0 : string
+    # 结束时间
+    startTimestamp 1 : integer
+}
+
+.currentDemonKingPlanInfo {
+	start 0 : integer
+    finish 1 : integer
+    goldExchangeTime 3 : integer
+	growPoint 4 : integer
+	rankPoint 5 : integer
+	growPlanId 6 : string
+	rankPlanId 7 : string
+	growIsLightUp 8 : boolean
+	rankIsLightUp 9 : boolean
+	growPickedRecord 10 : *pickedInfo(id)
+	rankPickedRecord 11 : *pickedInfo(id)
+	uid 12 : string
+	growAchieveLevel 13 : integer
+	rankAchieveLevel 14 : integer
+	growShowGoldLevel 15 : integer
+	rankShowGoldLevel 16 : integer
+	
+}
+
+.pickedInfo {
+	id 0 : string
+	common 1 : boolean
+	senior 2 : boolean
+}
+.kindredSkillInfo {
+    skillId 0 : string
+    curValue 1 :integer
+}
+
+.kindredInfo {
+    id 0 : string
+    level 1 : integer
+    breakLevel 2 : integer
+    skillInfo 3 : *kindredSkillInfo
+}
+
+.perfumeInfo {
+    key 0 : string
+    count 1 : integer
+}
+
+.attackRecordInfo {
+	id 0 : string
+	fight 1 : boolean
+	usedItem 2 : boolean
+}
+
+.event {
+	groupId 0 : string
+	isPicked 1 : boolean
+	isDone 2 : boolean
+	startTime 3 : integer
+	type 4 : integer
+	needAbilityType 5 : string
+	needAbilityNum 7 : integer
+	bossHp 8 : integer
+	leftHp 9 : integer
+	attackRecord 10 : *attackRecordInfo(id)
+	eventId 11 : string
+	choiceResult 12 : string
+	missionId 13 : string
+}
+
+.ongoingEventSyncInfo {
+	wifeId 0 : string
+	groupId 1 : string
+	events 2 : *event
+}
+.ongoingEventGroupInfo {
+	wifeId 0 : string
+	groupId 1 : string
+	events 2 : *event
+}
+
+.assassinAttackRecord {
+	id 0 : string
+	fight 1 : boolean
+}
+
+.assassinInfo {
+	leftHp 0 : integer
+	currentRound 1 : integer
+	currentStage 2 : string
+	attackRecord 3 : *assassinAttackRecord(id)
+	assassinId 4 : integer
+	isEnd 5 : boolean
+	uid 6 : string
+}
+
+.reignQuestUnderlings {
+	underlingID 0 : string
+	level 1 : integer
+}
+
+.userDispatchList {
+	userID 0 : string
+	totalProp 1 : integer
+	underlings 2 : *reignQuestUnderlings(underlingID)
+	dispatchTimestamp 3 : integer
+}
+
+.reignQuestUserDataObj {
+	# 任务ID
+	questID 0 : string
+	# 领地ID
+	reignID 1 : string
+	# 领主ID
+	reignOwnerID 2 : string
+	# 每日任务玩家数据列表
+	userDispatchList 3 : *userDispatchList(userID)
+}
+
+.reignQuestDataList {
+	# 刷新任务的周一的时间戳
+	freshQuestMondayTime 0 : integer
+	# 当天任务的结束时间戳
+	questEndTimestamp 1 : integer
+	reignQuestUserDataList 2 : *reignQuestUserDataObj(questID)
+}
+.roomInfo {
+	roomOwner 0 : string
+	partyStatus 1 : integer
+	partyStartTime 2 : integer
+	partyEndTime 3 : integer
+	roomCapacity 4 : integer
+	roomType 5 : string
+	ownerBuff 6 : integer
+	guestsCountNum 7 : integer
+	guestsInfo 8 : *roomGuestInfo(playerId)
+	recordInfo 9 : *roomRecordInfo(time)
+	roomBuildTime 10 : integer
+	protectedEndTime 11 : integer
+	protectItem 12 : string
+	isProtected 13 : integer
+}
+
+.roomHeadInfo {
+	type 0 : integer
+	picture 1 : string
+	frame 2 : string
+}
+
+.roomGuestInfo {
+	playerId 0 : string
+	positionIndex 1 : integer
+	joinTime 2 : integer
+	level 3 : integer
+	name 4 : string
+	title 5 : string
+	headInfo 6 : roomHeadInfo
+	recharge 7 : integer
+	avatar 8 : string
+    avatartype 9 : integer
+	allTitles 10 : *string
+}
+
+.roomRecordInfo {
+	time 0 : integer
+	eventType 1 : integer
+	playerId 2 : string
+	challengerId 3 : string
+	playerName 4 : string
+	challengerName 5 : string
+	playerTitle 6 : string
+	playerAllTitles 7 : *string
+}
+
+.startedRoomInfo {
+	roomOwner 0 : string
+	partyStatus 1 : integer
+	partyStartTime 2 : integer
+	partyEndTime 3 : integer
+	roomCapacity 4 : integer
+	roomType 5 : string
+	ownerBuff 6 : integer
+	guestsCountNum 7 : integer
+	isJoin 8 : boolean
+	roomBuildTime 9 : integer
+	roomOwnerHeadInfo 10 : roomHeadInfo
+	roomOwnerTitle 11 : string
+	roomOwnerName 12 : string
+	roomOwnerRecharge 13 : integer
+	roomOwnerAvatar 14 : string
+    roomOwnerAvatarType 15 : integer
+	protectedEndTime 16 : integer
+	roomOwnerAllTitles 17 : *string
+}
+
+.fightResult {
+	fightStage 0 : string
+	defenderNum 1 : integer
+	challengerNum 2 : integer
+	isSuccess 3 : boolean
+}
+
+.reignQuestShopData {
+	shopID 0 : string
+	# 本日/周已经兑换的数量
+	count 1 : integer
+}
+
+.smallactivitiesInfo { 
+	id 0 : string
+	tempId 1 : string
+	start 2 : integer
+	finish 3 : integer
+	sendFlag 4 : integer
+}
+
+.dayTask {
+	taskId 0 : string
+	requestCount 1 : integer
+	taskDone 2 : boolean
+}
+
+.oneDayInfo {
+	id 0 : string
+	day 1 : string
+	storyStartTime 2 : integer
+	readStoryDone 3 : boolean
+	dayTasks 4 : *dayTask(taskId)
+}
+
+.selfTaskInfo {
+	allDaysInfo 0 : *oneDayInfo(day)
+}
+
+.smallChangeInfo {
+	old 0 : item
+	new 1 : item
+}
+
+.smallNews {
+	name 0 : string
+	itemId 1 : string
+	count 2 : integer
+}
+
+.unlockKeyTime {
+	key 0 : string
+	time 1 : integer
+}
+
+.nomiee {
+	id 0 : string
+	votes 1 : integer
+}
+
+.votedInfo {
+	id 0 : string
+	count 1 : integer
+	nomineeId 2 : string
+}
+
+.electionInfo {
+	state 0 : string
+	start 1 : integer
+	finish 2 : integer
+	totalVotes 3 : integer
+	votesRank 4 : *string
+	nomineeList 5 : *nomiee(id)
+	votedList 6 : *votedInfo(id)
+}
+
+.anniversaryInfo {
+    # AnniversaryEventReward 的 id
+	id 0: integer
+	# 兑换的次数
+	count 1: integer
+}
+
+.anniversaryEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 任务列表
+	taskList 4:*taskList(taskType)
+	# 领奖列表 	按照AnniversaryEventQuest的ID
+	rewardList 6: *string
+	# 商店购买列表
+	shopList 7: *anniversaryInfo(id)
+	# 此次活动总分数
+	totalScore 8 : integer
+}
+
+# 新皮肤活动的格子数据
+.newOutfitRowData {
+	# 这里加上rowID 客户端方便
+	columnID 0 : string
+	rowID 1 : string
+    # 状态 0 未翻开，1 已翻开, 2 已领取
+    state 2 : integer
+	# 格子类型 0 空格，1 道具，2 横2格宝箱，3 竖2格宝箱，4 4格宝箱，5 敌人， 6 路
+	gridType 3 : integer
+	# 如果是宝箱，标识是第几块(0是不分块的，1-2或者1-4 看rewardID)
+	piece 4 : integer
+	# nextRow 和 nextColumn 只有在gridType 是 6 或者 7 的时候有
+	nextRow 5 : integer
+	nextColumn 6 : integer
+	# 奖励道具ID 只有在gridType == 1 时
+	itemID 7 : string
+	# 奖励道具count 只有在gridType == 1 时
+	itemCount 8 : integer
+	# 敌人ID 只有在gridType == 5 时
+	enemyID 9 : integer
+	# 敌人等级 只有在gridType == 5 时
+	enemyLevel 10 : integer
+	# 敌人类型 F I E S atk
+	enemyType 11 : string
+	# 敌人最大血量
+	enemyMaxHP 12 : integer
+	# 敌人最大血量剩余血量
+	enemyRemainHP 13 : integer
+	# 派遣的属下列表
+	underlingList 14 : *string
+	# 敌人削弱百分比
+	enemyWeakenPct 15 : integer
+}
+
+# 新皮肤活动的格子列表结构
+.newOutfitGridList {
+    # 格子的行和列
+    rowID 0 : string
+	rowData 1 : *newOutfitRowData(columnID)
+}
+
+# 新皮肤活动的保底数据
+.baoDiData {
+    id 0 : string
+	num 1 : integer
+}
+
+.teamInfo {
+	teamNo 0 : string
+	rdType 1 : string
+	underlings 2 : *string
+}
+
+.fragmentsExchangeInfo {
+	sender 0 : string
+	receiver 1 : string
+	itemId 2 : string
+	count 3 : integer
+	time 4 : integer
+	uid 5 : string
+	score 6 : integer
+	state 7 : string # 1 等待我处理 2 等待对方处理 3 历史记录 "1-1" 等待我接收碎片 "1-2" 等待我接收积分 "1-3" 等待我收回对方退了的碎片 "2-1" 等待我可以取消的赠送 "3-1" 接收了碎片 "3-2" 我拒绝接收 "3-3" 对方取消赠送 "3-4" 我取消赠送 "3-5" 我回收碎片 "3-6" 领取了积分 
+}
+# 新皮肤活动的保底数据
+.rollData {
+    gridType 0 : string
+	weight 1 : integer
+}
+
+.adventureGoldShopRecord {
+	id 0 : string
+	count 1 : integer
+}
+# 已获得的活动特殊效果ID和加成值
+.newOutfitSpecialReward {
+	# 活动uid
+	specialID 0 : integer
+	# 效果
+	effectValue 1 : integer
+}
+
+.receiveRemainingInfo {
+	id 0 : string
+	remaining 1 : integer
+}
+
+.adventureInfo {
+	setOutRemaining 0 : integer
+	giveRemaining 1 : integer
+	receiveRemaining 2 : *receiveRemainingInfo(id)
+	recoveryTime 3 : integer
+	goldShopRecord 4 : *adventureGoldShopRecord(id)
+	id 5 : string
+}
+
+.rdInfo {
+	rdType 0 : string
+	rdGrade 1 : integer
+	configId 2 : string
+	abbreviation 3 : string
+	evolutionState 4 : string
+	evolution 5 : *string
+}
+
+.pickedAchievement {
+	id 0 : integer
+	count 1 : integer
+}
+
+
+.adventureAchievement{
+	type 0 : string
+	count 1 : integer
+}
+
+.newOutfitEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 格子数据
+	gridList 4:*newOutfitGridList(rowID)
+	# 领奖列表 	按照NewOutfitEventReward的ID
+	rewardList 5: *string
+	# 总的敌人削弱百分比
+	enemyWeakenPct 6 : integer
+	maxRow 7 : integer
+	openNum 8 : integer
+	enemyNum 9 : integer
+	totalScore 10: integer
+	rollData 11 : *rollData(gridType)
+	baoDiData 12 : *baoDiData(id)
+	recoverTime 13 : integer
+    #金手指标记,1的时候激活
+    goldfinger 14 : integer
+}
+
+.adventureADInfo {
+    typ 0 : string
+    start 1 : string
+    finish 2 :string
+    uid 3 :string
+}	
+
+.damageInfo { #伤害统计
+	id 0 : string
+	damage 1 : integer
+	name 2 : string
+	title 3 : string
+    allTitles 4 : *string
+	guildName 5 : string
+}
+
+.zoneInfo {
+	bossUid 0 : string
+	hp 1 : integer
+	leftHp 2 : integer
+	areaId 3 : string
+	fightingTeams 4 : *integer
+	openTime 5 : integer
+	teamLeader 6 : integer #boss开启人
+	deadlineTime 7 : integer #截止时间
+	damageStatistics 8 : *damageInfo(id)
+	state 9 : string #给邀请列表使用的状态
+	ownTeamLeader 10 : integer
+	meanwhileInviteLimit 11 : integer
+	isRandom 12 : string
+}
+
+.areaZonesInfo {
+	areaId 0 : string
+	progress 1 : integer #触发进度
+	bossesInfo 2 : *zoneInfo(bossUid)
+}
+
+.teamZonesInfo {
+	selfZones 0 : *areaZonesInfo(areaId) #自己开启的副本
+	otherZones 1 : *zoneInfo(bossUid) #加入别人的副本
+	beInvitedLimit 2 : integer
+}# server push
+sync_full_charater 1 {
+    request {
+        character 0 : character
+        nextday 1 : integer
+        friendblock 2 : boolean
+        serverprefix 3:string
+        gameStartDay 4 : integer
+    }
+}
+
+miracle_sync 2 {
+    request {
+        miracle 0 : miracle
+    }
+}
+
+# 生产次数恢复
+product_time_recovery 3 {
+    request {
+        product 0 : product
+    }
+}
+
+# 办公次数恢复
+business_time_recovery 4 {
+    request {
+        business 0 : business
+    }
+}
+
+# 统计同步
+stat_sync 5 {
+    request {
+        stats 0 : stats
+    }
+}
+
+item_sync 6 {
+    request {
+        items 0 : *item(id)
+    }
+}
+
+vassal_ce_sync 7 {
+    request {
+        id 0 : string
+        ce 1 : integer
+        recovery 2 : integer
+    }
+}
+
+new_day_sync 8 {
+    request {
+        character 0 : character
+        nextday 1 : integer
+    }
+}
+
+.prop {
+    type 0 : string
+    value 1 : integer
+}
+
+prop_sync 9 {
+    request {
+        props 0 : *prop
+    }
+}
+
+mails 10 {
+    request {
+        mails 0 : *mail
+    }
+}
+
+beauty_activity_changed 11 {
+    request {
+        activity 0 : beautyactivity
+    }
+}
+
+new_underling 12 {
+    request {
+        underling 0 : underling
+    }
+}
+
+new_beauty 15 {
+    request {
+        beauty 0 : beauty
+    }
+}
+
+# 出战令个数同步，由于手下升级出战令个数可能会增长
+sync_underling_areana_ticket 13 {
+    request {
+        count 0 : integer
+    }
+}
+
+# 20杀消息同步
+sync_areana_message 14 {
+    request {
+        message 0 : areanamessage
+    }
+}
+
+account_kick 16 {
+    request {
+        # 1 顶号
+        # 2 GM操作
+        reason 0 : integer
+    }
+}
+
+shop_item_changed 17 {
+    request {
+        shopgifts 0 : *shopgift(id)
+    }
+}
+
+personal_boss 18 {
+    request {
+        start 0 : boolean
+    }
+}
+
+sync_activity 19 {
+    request {
+        activitystatus 0 : activitystatus
+    }
+}
+
+coop_boss 20 {
+    request {
+        # 多人BOSS系统是否开启, 1 未开启，2正在开启，3已结束（BOSS被弄死了）
+        status 0 : integer
+    }
+}
+
+new_mail 21 {
+    request {
+        mail 0 : mail
+    }
+}
+
+vip_exp_changed 22 {
+    request {
+        recharge 0 : integer
+        # 出游运气免费恢复次数
+        freefl 1 : integer
+        context 2 : atcontext
+    }
+}
+
+time_limit_item_sync 23 {
+    request {
+        shopgiftsales 0 : *shopgiftsales(id)
+    }
+}
+
+guild_dirty 24 {
+    request {
+        reason 0 : integer
+        userids 1 : *integer
+    }
+}
+
+.order {
+    id 0 : string
+    time 1 : integer
+    # 0 未支付 1 已支付
+    pay 2 : integer
+    config 3 : string
+}
+
+sync_orders 25 {
+    request {
+        orders 0 : *order
+    }
+}
+
+sync_order_pay 26 {
+    request {
+        order 0 : order
+    }
+}
+
+guild_new_request 27 {
+    request {
+        request 0 : guildrequest
+    }
+}
+
+guild_info 28 {
+    request {
+        guild 0 : guild
+    }
+}
+
+# 工会成员属性变化
+guild_sync_member 29 {
+    request {
+        character 0 : guildcharacter
+        # 总贡献变化
+        total 1 : integer
+    }
+}
+
+friend_full 30 {
+    request {
+        friends 0 : *friend
+    }
+}
+
+friend_sync 31 {
+    request {
+        friend 0 : friend
+    }
+}
+
+friend_removed 32 {
+    request {
+        friend 0 : integer
+    }
+}
+
+.accumulatetopup {
+    # 开始时间
+    start 0 : integer
+    # 结束时间
+    finish 1 : integer
+    # 唯一id
+    uid 2 : string
+    # 配置信息RWList表_id
+    config 3 : string
+}
+
+accumulate_topup 33 {
+    request {
+        a 0 : accumulatetopup
+        b 1 : accumulatetopup
+        c 2 : accumulatetopup
+        # 充值信息
+        atcontext 3 : atcontext
+        isclose 4 : boolean
+    }
+}
+
+card_sync 35 {
+    request {
+        # 普通月卡到期时间，可为空
+        monthcard 0 : integer
+        # 至尊月卡到期时间，可为空
+        acecard 1 : integer
+        # 年卡月卡到期时间，可为空
+        yearcard 2 : integer
+    }
+}
+
+guild_leave_cd 37 {
+    request {
+        cd 0 : integer
+    }
+}
+
+minigame_sync 38 {
+    request {
+        mg1 0 : mg1
+        mg2 1 : mg2
+        mg3 2 : mg3
+        mg4 3 : mg3
+        mg5 4 : mg5
+        mg6 5 : mg6
+        mg7 6 : mg7
+    }
+}
+
+mg1_bullet_sync 39 {
+    request {
+        mg1 0 : mg1
+    }
+}
+
+chat 40 {
+    request {
+         # 1 个人聊天， 2 工会聊天，3 世界聊天
+        channel 0 : integer
+        # 内容类型，1 文字 2 表情 3 分享手下 4 分享附属 5 分享情人，2--5为id
+        typ 1 : integer
+        content 2 : string
+        # 谁发的
+        sender 3 : integer
+        time 4 : integer
+        # 聊天id
+        id 5:integer
+        #私聊接收玩家id
+        to 6 : integer
+        crossChannelName 7 : string
+		# 发送者气泡框ID
+        useBubbleID 8 : string
+        gachachatinfo 9 : gachachatinfo
+    }
+}
+
+tlt_sync 41 {
+    request {
+        tlt 0 : *tlt(id)
+    }
+}
+
+tlr_sync 42 {
+    request {
+        tlr 0 : *tlr(typ)
+    }
+}
+
+.mgnews {
+    # mg1\mg2\mg3...
+    typ 0 : string
+    # json 格式，mg2 内容为{name:"玩家名", itemid:"物品id"}
+    message 1 : string
+}
+
+mg_news 43 {
+    request {
+        mgnews 0 : mgnews
+    }
+}
+
+mg_all_news 44 {
+    request {
+        # mg1\mg2\mg3...
+        typ 0 : string
+        mgnewses 1 : *string
+    }
+}
+
+
+chat_box_info 45 {
+    request {
+        # 抢到的宝箱Id
+        chestArr 0 : *string
+        # 抢到的宝箱物品
+        chestItemArr 1 : *item
+        # 掉落的宝箱id 
+        ownerChests 2 :*string
+    }
+}
+
+coop_boss_status 46 {
+    request {
+        #BOSS状态
+        status 0 : integer
+        #BOSS当前血量
+        hp 1 : integer
+        #BOSS前三排行（有变更才发）
+        ranks 2 : *rankcharacter
+        #BOSS随机掉血
+        hpShow 3 : *integer
+        #boss击杀者
+        killer 4 :rankcharacter
+    }
+}
+
+sync_arena 47 {
+    request {
+        arena 0 : areana
+    }
+}
+
+
+
+sync_navigation_team_bonus 48 {
+    request {
+        eventCount 0:integer
+        addScore 1:integer
+        showItems 2 : *item
+    }
+}
+
+sync_navigation_team_info 49 {
+    request {
+        teamInfo 0:navigationTeam
+    }
+}
+
+sync_navigation_stamina 50 {
+    request {
+        stamina 0:integer
+        items 1:*item(id)
+    }
+}
+
+sync_navigation_news 51 {
+    request {
+        news 0:*navigationRecord
+        
+    }
+}
+
+sync_navigation_info 52 {
+    request {
+        navigationInfo 0:navigationInfo
+        items 1:*item(id)
+    }
+}
+
+sync_self_title 53 {
+    request {
+        titleIds 0:*string
+    }
+}
+
+sync_update_title_status 54 {
+    request {
+        titleId 0:string
+        #0:remove, 1:add
+        status 1:integer
+    }
+}
+
+sync_total_prop 55 {
+    request {
+        total 0 : integer
+        props 1 : *integer
+    }
+}
+
+sync_self_arena_score 56 {
+    request {
+        score 0:integer
+    }
+}
+
+
+sync_navigation_area 57 {
+    request {
+        areaId 0 :string
+    }
+}
+
+sync_system_notice 58 {
+    request {
+        id 0 :integer
+    }
+}
+
+sync_underling_pro_add 59 {
+    request {
+        basePro 0 : addPro
+        auraPro 1 : addPro
+        wifePro 2 : addPro
+    }
+}
+
+sync_cross_open 60 {
+    request {
+        crossOpen 0 : integer
+    }
+}
+
+sync_refresh_cross 61 {
+    request {
+        crossInfo 0: *crossInfo(configId)
+    }
+}
+
+sync_underling_cross_arena_ticket 62 {
+    request {
+        count 0 : integer
+    }
+}
+
+sync_cross_arena 63 {
+    request {
+        crossarena 0 : crossarena
+    }
+}
+
+
+sync_cross_game 64 {
+    request {
+        crossgame 0 : crossgame
+    }
+}
+
+sync_guild_boss 65 {
+    request {
+        bossInfo 0 : guildBossInfo
+        memberBossReward 1 : memberBossReward
+    }
+}
+
+sync_exchange_game_update 66 {
+    request {
+        exchangeInfo 0 : *exchangeInfo
+    }
+}
+
+sync_exchange_game 67 {
+    request {
+        exchangeInfo 0 : *exchangeInfo
+        recordList 1 : *exchangeRecordInfo
+    }
+}
+
+sync_rest_day 68 {
+    request {
+		#连休活动数据
+		restDay 0: restDay
+    }
+}
+
+sync_month_event 69 {
+	request {
+		#月初骗钱活动
+		monthEvent 0: monthEvent
+	}
+}
+
+system_notice 70 {
+	request {
+		# 提示类型
+		typ 0: string
+		# 玩家ID
+		playerID 1: integer
+		# 玩家名字
+		playerName 2: string
+		# 道具
+		items 3: *item(id)
+	}
+}
+sync_troopscost_info 71 {
+    request {
+        troopscostInfo 0 : troopsCostInfo
+        newConfFlag 1 : boolean
+    }
+}
+
+sync_troopscost_game_update 72 {
+    request {
+            nId 0 :integer          #活动id 
+            start    1 :integer     #活动开始时间戳
+            finish   2 :integer     #活动结束时间戳
+    }
+}
+
+#新藏宝图通知
+sync_troopscost_get_new_map 73 {
+    request {
+        troopscostmapInfo 0 : troopscostmapInfo 
+    }
+}
+
+#打开藏宝图更新通知
+sync_troopscost_open_map_grid 74 {
+    request {
+        troopscostmapInfo 0 : troopscostmapInfo 
+    }
+}
+
+
+#同步皇陵信息
+sync_mausoleum 75 {
+    request {
+        playerMausoleumInfo 0 : mausoleumPlayerInfo
+    }
+}
+
+#同步体力
+sync_mausoleum_stamina 76 {
+    request {
+        stamina 0:integer
+        recoverTime 1 : integer
+        items 2:*item(id)
+    }
+}
+
+#广播皇陵信息
+sync_mausoleum_boss 77 {
+    request {
+        realAtk 0 : integer
+        grid 1 : gridInfo
+        killer 2 : integer     
+    }
+}
+
+#广播皇陵信息
+sync_mausoleum_news 78 {
+    request {
+        news 0:*mausoleumRecord
+        
+    }
+    
+}
+
+sync_wifead_game_update 79 {
+    request {
+        wifeAdInfo 0 : *wifeAdInfo
+    }
+}
+
+sync_wifead_info 80 {
+    request {
+        wifeAdInfo 0 : *wifeAdInfo
+    }
+}
+
+sync_mausoleum_update_grid 81 {
+    request {
+        grid 0 : gridInfo  
+    }
+}
+
+#时装活动内容
+sync_hero_outfit_event 82 {
+	request {
+		heroOutfitEvent 0: heroOutfitEvent
+	}
+}
+
+#时装活动道具处理
+sync_hero_outfit_event_item_deal 83 {
+	request {
+		showItems 0 : *item
+        items 1 : *item
+        nType 2 : string
+	}
+}
+
+sync_single_heroevent 84 {
+    request {
+        singleHeroEventData 0 : *singleHeroEventData(uid)
+    }
+}
+
+#4星时装活动内容
+sync_rare_outfit_event 85 {
+	request {
+		rareOutfitEvent 0: rareOutfitEvent
+	}
+}
+
+#4星时装活动道具处理
+sync_rare_outfit_event_item_deal 86 {
+	request {
+		showItems 0 : *item
+        items 1 : *item
+        nType 2 : string
+	}
+}
+
+#单独同步贸易系统
+sync_vassal_system 87 {
+    request {
+        vassal 0 : vassalsystem
+    }
+}
+
+#同步皇陵信息
+sync_cross_mausoleum 88 {
+    request {
+        playerMausoleumInfo 0 : mausoleumPlayerInfo
+    }
+}
+
+#同步体力
+sync_cross_mausoleum_stamina 89 {
+    request {
+        stamina 0:integer
+        recoverTime 1 : integer
+        items 2:*item(id)
+    }
+}
+
+#广播皇陵信息
+sync_cross_mausoleum_boss 90 {
+    request {
+        realAtk 0 : integer
+        grid 1 : gridInfo
+        killer 2 : integer     
+    }
+}
+
+#广播皇陵信息
+sync_cross_mausoleum_news 91 {
+    request {
+        news 0:*mausoleumRecord
+        
+    }
+    
+}
+sync_cross_mausoleum_update_grid 92 {
+    request {
+        grid 0 : gridInfo  
+    }
+}
+
+#同步双倍充值活动
+sync_doublerecharge 93 {
+    request {
+        doubleRechargeInfo 0 : doubleRechargeInfo
+    }
+}
+
+#同步联盟boss伤害
+sync_guildboss_damage 94 {
+    request {
+        damage 0 : integer
+    }
+}
+
+#同步分享奖励信息
+sync_share_info 95 {
+    request {
+        underling 0 : *string
+        beauty 1 : *string
+        underlingoutfit 2 : *string
+        beautyoutfit 3 : *string
+        kindred 4 : *string
+    }
+}
+
+#同步部下和老婆解锁数据(根据活动走)
+sync_content_unlock 96 {
+    request {
+		# config.ContentUnlock unlockKey字段
+        unlockKeyList 0 : *integer
+		unlockKeyTime 1 : *unlockKeyTime 
+    }
+}
+
+#同步当前开着的活动类型列表(mg1,mg2,mg3,mg4,mausoleum,navigation)
+sync_running_activity_typ 97 {
+    request {
+		#字符串数组
+        runningActivityTypeList 0 : *string
+    }
+}
+
+sync_mausoleum_grid 98 {
+    request {
+        curPage 0 : integer
+        totalPage 1 :integer
+        pageGrid 2 : *gridInfo(id)
+    }
+}
+
+
+sync_cross_mausoleum_grid 99 {
+    request {
+        curPage 0 : integer
+        totalPage 1 :integer
+        pageGrid 2 : *gridInfo(id)
+    }
+}
+
+#单独同步贸易系统
+sync_single_vassal 100 {
+    request {
+        vassal 0 : vassal
+    }
+}
+
+#同步玩家公会礼包数据
+sync_guild_gift_package 101 {
+    request {
+        giftInfo 0 : *sendGiftInfo(giftID)
+    }
+}
+#同步领地数据
+sync_reign_info 102 {
+    request {
+        reignInfo 0 : reignInfo
+    }
+}
+
+#更新领地数据
+sync_reign_update 103 {
+    request {
+        reignInfo 0 : reignInfo
+    }
+}
+
+buff_sync 104 {
+	request {
+		buffs 0 : *buffinfo
+	}
+}
+
+sync_regin_list 105 {
+    request {
+        reignAdInfo 0 : *reignAdInfo
+    }
+}
+
+sync_forever_gift 106 {
+    request {
+        foreverGift 0 : *foreverGift(id)
+    }
+}
+
+sync_reign_open 107 {
+    request {
+        reignOpen 0 : integer
+    }
+}
+
+sync_dmeon_king_plan_info 108 {
+	request {
+		currentDemonKingPlanInfo 0 : currentDemonKingPlanInfo
+	}
+}
+
+
+# 同步竞技场20杀以上记录
+sync_areana_news 109 {
+    request {
+		messages 0 : *areanamessage
+    } 
+}
+
+# 单服领地开启
+sync_reign_single_open 110 {
+    request {
+        reignSingleOpen 0 : integer
+    }
+}
+
+
+# 同步玩家时装头像
+sync_update_playerinfo 111 {
+    request {
+        avatar 0 : string
+        headInfo 1 : headInfo
+    }
+}
+
+sync_pandemonium_close 112 {
+    request {
+        pandemopniumClose 0 : boolean
+        reignClose 1 : boolean
+    }
+}
+
+
+sync_kindred_info 113 {
+    request {
+        kindredInfo 0 : *kindredInfo(id)
+        kindredshop 1 : *item(id)
+        kindredopen 2 : integer
+    }
+}
+
+sync_kindred_update 114 {
+    request {
+        kindredInfo 0 : *kindredInfo(id)
+        kindredshop 1 : *item(id)
+        kindredopen 2 : integer
+    }
+}
+
+sync_new_kindred 115 {
+    request {
+        kindred 0 : kindredInfo
+    }
+}
+
+greenhand_gift_item_sync 116 {
+    request {
+        normalgiftsales 0 : *shopgiftsales(id)
+    }
+}
+
+sync_perfume_info 117 {
+    request {
+        perfumeInfo 0 : perfumeInfo
+    }
+}
+
+sync_rankshop_info 118 {
+    request {
+        id 0 : string
+    }
+}
+
+sync_vipshop_info 119 {
+    request {
+       vipShopInfo 0 : *item(id)
+    }
+}
+
+sync_vipshop_update 120 {
+    request {
+    }
+}
+
+sync_specialgiftshop_info 121 {
+    request {
+        specialgiftshopInfo 0 : *item(id)
+    }
+}
+
+sync_gachaevent_task 122 {
+    request {
+        taskInfo 0 : *gachataskinfo(id)
+    }
+}
+
+sync_gachaevent_update 123 {
+    request {
+        gacahevent 0 : gachaevent
+    }
+}
+
+sync_gachaevent_exchange_item 124 {
+    request {
+        itemInfo 0 : *item
+        items 1: *item
+    }
+}
+
+sync_luckybag_task 125 {
+    request {
+        taskInfo 0 : *luckybagTaskinfo(id)
+    }
+}
+
+sync_luckybag_update 126 {
+    request {
+        luckybag 0 : luckybagInfo
+        # 物品数量变化
+        items 1 : *item(id)
+    }
+}
+
+sync_luckybag_info 127 {
+    request {
+        luckybag 0 : luckybagInfo
+        # 物品数量变化
+        items 1 : *item(id)
+    }
+}
+
+
+
+sync_assassin_info 198 {
+	request {
+		assassinInfo 0 : assassinInfo
+		isEnd 1 : boolean
+	}
+}
+
+sync_ongoing_events 199 {
+	request {
+		ongoingEventSyncInfo 0 : *ongoingEventSyncInfo
+	}
+}
+
+sync_reign_quest_data 200 {
+	request {
+		reignQuestDataList 0 : reignQuestDataList
+	}
+}
+
+sync_smallactivities_info 201 {
+	request {
+		smallactivitiesInfo 0 : smallactivitiesInfo
+	}
+}
+
+sync_small_task_info 202 {
+	request {
+		dayTask 0 : item
+	}
+}
+
+sync_self_all_tasks_info 203 {
+	request {
+		selfAllTask 0 : selfTaskInfo
+		allStartTime 1 : *integer
+	}
+}
+
+
+
+#同步帮派活动boss信息
+sync_guild_act_boss_state 204 {
+    request {
+        #对应gWorldQuest
+        bossType 0 : integer
+        #0 关闭，1 开启
+        actState 1 : integer
+    }
+}
+
+sync_small_exchange 205 {
+	request {
+		smallChangeInfo 0 : *smallChangeInfo
+		items 1 : *item
+		id 2 : string
+		tempId 3 : string
+	}
+}
+
+sync_refresh_small_shop 206 {
+	request {
+		refresh 0 : string
+		info 1 : *string
+	}
+}
+
+sync_small_news 207 {
+	request {
+		news 0 : *smallNews	
+	}
+}
+
+sync_guild_election_info 208 {
+	request {
+		election 0 : electionInfo
+	}
+}
+
+#周年庆活动内容
+sync_anniversary_event 209 {
+	request {
+		anniversaryEvent 0: anniversaryEvent
+	}
+}
+sync_adventure_info 210 {
+	request {
+		rdInfo 0 : *rdInfo(rdType)
+		teamInfo 1 : *teamInfo(teamNo)
+		distance 2 : integer
+		pickedAchievement 3 : *pickedAchievement(id)
+		achievement 4 : *adventureAchievement(type)
+		bestSingleDistance 5 : integer
+	}
+}
+
+sync_personal_exchange_info 211 {
+	request {
+		selfExchangeInfo 0 : *fragmentsExchangeInfo(uid)
+	}
+}
+
+sync_adventure_activity_info 212 {
+	request {
+		start 0 : integer
+		finish 1 : integer
+		rewardFinish 2 : integer
+	}
+}
+
+sync_personal_adventure_info 213 {
+	request {
+		info 0 : adventureInfo
+	}
+}
+#新时装活动内容
+sync_newoutfit_event 214 {
+	request {
+		newOutfitEvent 0: newOutfitEvent
+	}
+}
+
+#新时装活动清空手下列表
+sync_newoutfit_event_flush_underling_list 215 {
+	request {
+		underlingList 0: *string
+	}
+}
+
+# 捞船广告
+sync_adventure_list 216 {
+    request {
+        adventureInfo 0 : *adventureADInfo
+    }
+}
+
+sync_rankbonus_info 217 {
+	request {
+		rankbonusInfo 0 : rankbonusInfo
+	}
+}
+
+sync_rankbonus_task 218 {
+	request {
+		rankbonusTaskInfo 0 : *rankbonusTaskinfo(id)
+	}
+}
+
+sync_navigation_team_zones 219 { #队伍身上所有boss
+	request {
+		zonesInfo 0 : teamZonesInfo
+	}
+}
+
+sync_navigation_zone 220 { #单个副本信息
+	request {
+		zoneInfo 0 : zoneInfo
+	}
+}
+
+sync_navigation_area_zones 221 { #单个区域下的所有副本
+	request {
+		areaZone 0 : areaZonesInfo
+	}
+}
