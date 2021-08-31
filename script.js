@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path/posix");
-const utils = require("../sproto-js/utils.js");
+const utils = require("./src/utils//utils.js");
 
 function readBinary(filepath) {
     let raw = fs.readFileSync(filepath);
