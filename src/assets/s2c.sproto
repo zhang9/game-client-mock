@@ -57,6 +57,7 @@
     headInfo 21 : headInfo
     flagInfo 22 : flagInfo
     avatartype 23 : integer
+	useBubbleID 24 : string
 }
 
 .mailStatus {
@@ -176,6 +177,7 @@
     products 0 : *product(id)
     # 办公数据
     business 1 : business
+    storageLevel 2 : integer
 }
 
 .collect {
@@ -206,13 +208,14 @@
 	buffReward 2 : item
 }
 
-.bodybuilding {
+.libraryReading {
     # 手下id
     id 0 : string
     # 健身结束时间
     finish 1 : string
     # 月卡格子标识
     extra 2 :integer
+	bookList 3 : *string
 }
 
 # 单人BOSS相关数据
@@ -259,6 +262,26 @@
     times 2 : integer
 }
 
+.libraryShopBook {
+	goodsId 0 : string
+	buyCount 1 : integer
+	bookId 2 : string
+}
+
+.libraryShop{
+	shopBookList 0 : *libraryShopBook(goodsId)
+	nextRefreshTime 1 : integer
+}
+
+.library{
+	shopRefreshTimes 0 : integer
+	score 1 : integer
+	nextFreeTime 2 : integer
+	shop 3 : libraryShop
+	bookCheckBox 4 : *string
+	dayGainBookTimes 5 : integer
+}
+
 # 关卡相关信息/单机小系统（人质、健身）
 .pve {
     chapter 0 : integer
@@ -273,7 +296,7 @@
     hostages 6 : *hostage(id)
     # 健身房解锁数量
     bbunlock 7 : integer
-    bb 8 : *bodybuilding(id)
+    bb 8 : *libraryReading(id)
     #  单人BOSS相关
     singleboss 9 : singleboss
     # 多人BOSS相关
@@ -286,6 +309,7 @@
 	reignQuestUnderlingList 13 : *string
 	# 商店兑换情况
 	reignQuestShopData 14 : *reignQuestShopData(shopID)
+	library 15 : library
 }
 
 .dailytask {
@@ -295,6 +319,8 @@
     count 1 : integer
     # 是否领取过
     picked 2 : boolean
+	# 是否是新任务 不是就为空，是就为1
+	isNewTask 3 : integer
 }
 
 .stats {
@@ -366,6 +392,8 @@
     rareOutfitEvent 8 : rareOutfitEvent
 	anniversaryEvent 9 : anniversaryEvent
 	newOutfitEvent 10 : newOutfitEvent
+	bunnyShopData 11 : bunnyShopData
+    optimizeNewOutfitEvent 12 : optimizeNewOutfitEvent
 }
 
 .skill {
@@ -408,6 +436,10 @@
 	teamId 12 : string
     #遇见最大次数
     findCount 13 : integer
+    #累计出游次数
+    travelCount 14 : integer
+	isVirgin 15 : boolean
+	posData 16 : *synchroPosData(id)
 }
 
 # 美女 + 出游
@@ -453,6 +485,8 @@
 	level 7 : integer
 	allTitles 8 : *string
 	buffid 9 : string
+	vassalType 10 : string
+	vipLevel 11 : integer
 }
 
 # 附庸
@@ -488,7 +522,7 @@
     # 合作时使用的物品0：免费，1：物品，2：钻石
     coopitem 16 : integer
     # 指定合作方id
-    cooperationid 17 : integer
+    cooperationid 17 : string
     #美女初始时品质
     beautyQuality 18 :integer
     #贸易地名称
@@ -500,21 +534,34 @@
     # 指定合作方名字
     cooperationName 22 : string
     coopSuccItem 23 :integer
-    extraBlock 24:integer
-	isOwnTeam 25: boolean
-	teamMembers 26 : *string
-	teamLeader 27 : string
-	rejectReason 28 : integer
-	buffid 29 : string
+	isOwnTeam 24: boolean
+	teamMembers 25 : *string
+	teamLeader 26 : string
+	rejectReason 27 : integer
+	buffid 28 : string
+	vassalType 29 :string
+	vipLevel 30 : integer
+	increment 31 : integer
+	singleAddition 32 : boolean
+	cutAddition 33 : integer
+	finishTime 34 : integer
 }
 
+.vassalSeat{
+	id 0 : string
+	ce 1 : integer
+	vassalId 2 : string
+	extraBlock 3 : integer
+	unlock 4 : boolean
+	recovery 5 : integer
+}
 # 附庸系统
 .vassalsystem {
     # 已经解锁的数量
     unlock 0 : integer
     vassals 1 : *vassal(id)
-    curPage 2 : integer
-    totalPage 3 : integer
+    curPage 3 : integer
+    totalPage 4 : integer
 }
 
 # 才艺活动
@@ -856,6 +903,28 @@
     headInfo 1 : *headData
 }
 
+.tTriggerGiftTimeInfo {
+    nType 0 : integer
+    nTime 1 : integer
+}
+
+.tTriggerGiftListInfo {
+    id 0 : string
+    count 1 : integer
+}
+
+
+.triggergiftInfo{
+    # 激活礼包id
+    giftId 0 : string
+    # 已购礼包id列表
+    tTriggerGiftList 1 : *tTriggerGiftListInfo(id)
+    # 礼包触发时间列表
+    tTriggerGiftTime 2 : *tTriggerGiftTimeInfo
+    # 礼包公共cd
+    nTriggerGiftGlobalCD 3 : integer
+}
+
 .global {
     # 7日登录奖励
     sevendays 0 : *sevenday
@@ -905,6 +974,10 @@
     perfumeInfo 29 : perfumeInfo 
     normalgiftsales 30 : *shopgiftsales(id)
     useBubbleID 31 : string
+    mainCityOpenTime 32 : string
+    mainCityId 33 : string
+    triggergift 34 : triggergiftInfo
+	dateMode 35 : integer
 }
 
 
@@ -1094,6 +1167,7 @@
     id 0 : string
     count 1 : integer
     isGet 2 : boolean
+    isOpen 3 : boolean
 }
 
 .gachastoryinfo {
@@ -1132,6 +1206,16 @@
     tTaskInfo 5 : *gachataskinfo(id)
     tScoreList 6 : *string
     tStoryReward 7 : *gachastoryinfo(id)
+	nLotteryCount 8 : integer
+    feverRewards 9 : *item(id)
+	#双倍状态(0-为触发,1-计数,2-双倍状态)
+	feverState 10 : integer
+	#双倍抽奖时间(状态2时,超过该时间戳就回归0状态)
+	feverTime 11 : integer
+	#双倍触发索引(触发第几次)
+	feverIndex 12 : integer
+	#双倍抽奖计数(该次触发需要计数)
+	feverNum 13 : integer
 }
 
 .gachaeventinfo {
@@ -1166,6 +1250,7 @@
     taskList 5 : *luckybagTaskinfo(id)
     itemList 6 : *item(id)
     tGiftList 7 : *item(id)
+	skinId 8 : string
 }
 
 .rankbonusTaskinfo {
@@ -1437,6 +1522,7 @@
     underling 1 :string
     atk 2:integer
     atkTime 3 :integer
+	revive 4 : integer
 }
 
 
@@ -1455,6 +1541,8 @@
     startTime 7:integer
     #击退时间
     finishTime 8:integer
+	revive 9 : integer
+	endTimes 10 : *integer
 }
 
 
@@ -1465,6 +1553,7 @@
     confId 3: string
     activityCoin 4 : integer
     activityCoinItem 5 : string
+	revive 6 : integer
 }
 
 .friend {
@@ -2223,6 +2312,15 @@
 	allDaysInfo 0 : *oneDayInfo(day)
 }
 
+
+
+
+.selfRechargeTaskInfo {
+    day 0 : integer
+	dailyRecharge 1 : integer
+	pickTaskList 2 : *string
+}
+
 .smallChangeInfo {
 	old 0 : item
 	new 1 : item
@@ -2327,6 +2425,49 @@
 	rowData 1 : *newOutfitRowData(columnID)
 }
 
+# 复刻新皮肤活动的格子数据
+.optimizeNewOutfitRowData {
+	# 这里加上rowID 客户端方便
+	columnID 0 : string
+	rowID 1 : string
+    # 状态 0 未翻开，1 已翻开, 2 已领取
+    state 2 : integer
+	# 格子类型 0 空格，1 道具，2 横2格宝箱，3 竖2格宝箱，4 4格宝箱，5 敌人， 6 路
+	gridType 3 : integer
+	# 如果是宝箱，标识是第几块(0是不分块的，1-2或者1-4 看rewardID)
+	piece 4 : integer
+	# nextRow 和 nextColumn 只有在gridType 是 6 或者 7 的时候有
+	nextRow 5 : integer
+	nextColumn 6 : integer
+	# 奖励道具ID 只有在gridType == 1 时
+	itemID 7 : string
+	# 奖励道具count 只有在gridType == 1 时
+	itemCount 8 : integer
+	# 敌人ID 只有在gridType == 5 时
+	enemyID 9 : integer
+	# 敌人等级 只有在gridType == 5 时
+	enemyLevel 10 : integer
+	# 敌人类型 F I E S atk
+	enemyType 11 : string
+	# 敌人最大血量
+	enemyMaxHP 12 : integer
+	# 敌人最大血量剩余血量
+	enemyRemainHP 13 : integer
+	# 派遣的属下列表
+	underlingList 14 : *string
+	# 敌人削弱百分比
+	enemyWeakenPct 15 : integer
+    # 使用金块攻击次数
+    moneyAtk 16 : integer
+}
+
+# 复刻新皮肤活动的格子列表结构
+.optimizeNewOutfitGridList {
+    # 格子的行和列
+    rowID 0 : string
+	rowData 1 : *optimizeNewOutfitRowData(columnID)
+}
+
 # 新皮肤活动的保底数据
 .baoDiData {
     id 0 : string
@@ -2425,6 +2566,34 @@
 	recoverTime 13 : integer
     #金手指标记,1的时候激活
     goldfinger 14 : integer
+	skinId 15 : string
+}
+
+.optimizeNewOutfitEvent {
+	# 活动uid
+	uid 0:string
+	# 活动开始时间
+    start 1:integer
+	# 活动结束时间
+	finish 2:integer
+	# 活动类型
+	typ 3:string
+	# 格子数据
+	gridList 4:*optimizeNewOutfitGridList(rowID)
+	# 领奖列表 	按照OptimizeNewOutfitEventReward的ID
+	rewardList 5: *string
+	# 总的敌人削弱百分比
+	enemyWeakenPct 6 : integer
+	maxRow 7 : integer
+	openNum 8 : integer
+	enemyNum 9 : integer
+	totalScore 10: integer
+	rollData 11 : *rollData(gridType)
+	baoDiData 12 : *baoDiData(id)
+	recoverTime 13 : integer
+    #金手指标记,1的时候激活
+    goldfinger 14 : integer
+	skinId 15 : string
 }
 
 .adventureADInfo {
@@ -2469,6 +2638,66 @@
 	selfZones 0 : *areaZonesInfo(areaId) #自己开启的副本
 	otherZones 1 : *zoneInfo(bossUid) #加入别人的副本
 	beInvitedLimit 2 : integer
+}
+
+.bunnyShopExchangeInfo {
+    # 商品ID
+	id 0: integer
+	# 是否已兑换(0:没兑换, 1:已兑换)
+	isExchanged 1: integer
+}
+
+.bunnyShopData {
+	# 商店上次系统刷新时间戳
+	lastFreshTimestamp 0 : integer
+	# 今日手动刷新次数
+	todayRefreshTimes 1 : integer
+	# 商店商品列表(每次刷新会刷新该列表)
+	shopItemList 2 : *bunnyShopExchangeInfo(id)
+	# 意向组ID BunnyShopGroup
+	purposeGroupID 3 : string
+	# 首次打开异界商人的时间
+	firstOpenTime 4 : integer
+}
+
+#兔子商店记录数据
+.bunnyShopRecordInfo {
+    time 0:integer
+    rewards 1: *item(id)
+}
+#技能属性信息
+.skillPropInfo {
+    skillTyp 0 :integer
+    skillSubTyp 1 :integer
+    effectVal 2 : integer
+}
+
+.embassyStepData {
+    stepId 0 :string
+    underlings 1 : *string
+    leftHp 2 : integer
+
+}
+
+.embassyData {
+    eventId 0 :string
+    startTime 1 : integer
+    curStep 3:embassyStepData
+}
+
+.embassyFinishData {
+    eventId 0 : string
+    startTime 1 : integer
+}
+
+# 魔妃加护坑位数据
+.synchroPosData {
+	id 0 : string
+	heroid 1 : string
+	synchorLevel 2 : integer
+	skillLevel 3 : integer
+	fatterSkillId 4 : string
+	unlock 5 : integer
 }# server push
 sync_full_charater 1 {
     request {
@@ -2832,6 +3061,7 @@ coop_boss_status 46 {
         hpShow 3 : *integer
         #boss击杀者
         killer 4 :rankcharacter
+        isReborn 5: boolean
     }
 }
 
@@ -3580,4 +3810,94 @@ sync_navigation_area_zones 221 { #单个区域下的所有副本
 	request {
 		areaZone 0 : areaZonesInfo
 	}
+}
+
+#时装活动内容
+sync_bunny_shop 222 {
+	request {
+		bunnyShopData 0: bunnyShopData
+	}
+}
+
+#复刻新时装活动内容
+sync_optimize_newoutfit_event 223 {
+	request {
+		optimizeNewOutfitEvent 0: optimizeNewOutfitEvent
+	}
+}
+
+#复刻新时装活动清空手下列表
+sync_optimize_newoutfit_event_flush_underling_list 224 {
+	request {
+		underlingList 0: *string
+	}
+}
+
+
+# 图书馆积分商店自动刷新
+sync_library 225{
+	request {
+		library 0 : library
+	}
+}
+
+
+#复刻新时装活动同步回复时间
+sync_optimize_newoutfit_event_recovertime 226 {
+	request {
+		recoverTime 0: integer
+	}
+}
+
+#复刻新时装活动道具转化
+sync_optimize_newoutfit_clear_item 227 {
+     	request {   
+             rewardList 0 : *item(id)
+             typ    1 : string
+             items  2 : *item
+        }
+}
+
+#产地坑位信息同步
+sync_vassal_seat_sync 228 {
+    request {
+        seats 0 : *vassalSeat(id)
+    }
+}
+
+#技能提供属性同步
+sync_skill_props 229 {
+    request {
+        #魔妃阶位技能属性
+        wifeLevProps 0 : *skillPropInfo
+    }
+}
+
+#同步限定礼包信息
+sync_trigger_gift 230 {
+    request {
+        triggergift 0 : triggergiftInfo
+    }
+}
+
+
+#同步tlr冲榜礼包信息
+sync_tlr_rank_gift 231 {
+    request {
+        giftId 0 : string
+    }
+}
+
+sync_embassy_event 232 {
+    request {
+        eventData 0 : embassyData
+    }
+}
+
+sync_kindred_item_exchange 233 {
+    request {
+        srcItemList 0 : *item(id)
+		destItemList 1 : *item(id)
+		items 3 : *item(id)
+    }
 }

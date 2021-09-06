@@ -5,14 +5,10 @@ const sproto = require("./sproto.js");
 const s2c = sproto.createNew(new Uint8Array(s2cArray)),
     c2s = sproto.createNew(new Uint8Array(c2sArray));
 
-
 const clientHost = s2c.host();
 
-const clientSerder = clientHost.attach(c2s);
+const clientSender = clientHost.attach(c2s);
 
-export {
-    clientHost,
-    clientSerder,
-}
+export { clientHost, clientSender };
 
-export default clientSerder;
+export default clientSender;

@@ -1665,9 +1665,9 @@ var sproto = (function () {
                 header_tmp.type = null;
                 header_tmp.session = null;
                 header_tmp = sp.decode(this.package, bin);
-
                 var used_sz = sp.objlen(this.package, bin);
                 var leftbuffer = bin.slice(used_sz, bin.length);
+            
                 if (header_tmp.type) {
                     var proto = queryproto(sp, header_tmp.type);
                     var result;
@@ -1695,7 +1695,6 @@ var sproto = (function () {
                     var session = header_tmp.session;
                     var response = this.session[session];
                     delete this.session[session];
-
                     if (response === true) {
                         return {
                             type: "RESPONSE",

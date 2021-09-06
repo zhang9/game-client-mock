@@ -14,9 +14,13 @@ function transform(filepath) {
     const prefix = path.dirname(filepath);
     const binary = readBinary(filepath);
     const array = utils.arraybuffer2array(binary.buffer);
-    
-    fs.writeFileSync(path.join(prefix, name.replace("spb", "json")), JSON.stringify(array), "utf-8")
+
+    fs.writeFileSync(
+        path.join(prefix, name.replace("spb", "json")),
+        JSON.stringify(array),
+        "utf-8"
+    );
 }
 
 transform("./src/assets/c2s.spb");
-transform("./src/assets/s2c.spb")
+transform("./src/assets/s2c.spb");
