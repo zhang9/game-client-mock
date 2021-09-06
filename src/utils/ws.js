@@ -5,33 +5,25 @@ import store from "../store";
 
 let ws,
     session = 1,
-    leftBuffer,
     callbacks = {},
     handlers = {};
 
 function unpackPacket(buff) {
-    //b1判断是否需要解压缩
     if (!buff || buff.length < 3) {
         return buff;
     }
-
     const b1 = buff[0];
-    const b2 = buff[1];
-    const b3 = buff[2];
     if (b1 == 0) {
-        const length = b2 * 256 + b3;
-        // return length + 3;
         return buff;
     } else if (b1 == 1) {
-        //解压缩
-        let newbuff = buff.subarray(3);
-        let decompress = pako.inflate(newbuff);
-        var newDecompress = new Uint8Array(decompress.length + 3);
-        let firstArray = buff.subarray(0, 3);
+        //zlip decompress
+        const newbuff = buff.subarray(3);
+        const decompress = pako.inflate(newbuff);
+        const newDecompress = new Uint8Array(decompress.length + 3);
+        const firstArray = buff.subarray(0, 3);
         newDecompress.set(firstArray);
         newDecompress.set(decompress, firstArray.length);
         return newDecompress;
-        // return newDecompress.length;
     }
 }
 

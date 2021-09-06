@@ -62,7 +62,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const params = reactive({
-            serverId: "",
+            serverId: undefined,
             username: ""
         });
 
