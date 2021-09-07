@@ -2,7 +2,7 @@
     <a-layout>
         <app-header />
         <a-layout>
-            <a-layout-sider>Sider</a-layout-sider>
+            <app-sider />
             <a-layout-content class="main-window">
                 Content
 
@@ -15,11 +15,13 @@
 
 <script>
 import AppHeader from "./components/Header.vue";
+import AppSider from "./components/Sider.vue";
 import { send } from "./utils/ws";
 export default {
     name: "App",
     components: {
-        AppHeader
+        AppHeader,
+        AppSider
     },
     setup() {
         // connect();

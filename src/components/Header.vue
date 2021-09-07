@@ -56,7 +56,7 @@
 <script>
 import { UserOutlined, PoweroffOutlined } from "@ant-design/icons-vue";
 import { computed, defineComponent, reactive } from "vue";
-import { getAllGameServers } from "../utils/account-apis";
+import { getAllGameServers } from "../apis/account";
 import { useStore } from "vuex";
 export default defineComponent({
     setup() {

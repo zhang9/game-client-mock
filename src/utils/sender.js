@@ -1,3 +1,5 @@
+import store from "../store";
+
 const c2sArray = require("../assets/c2s.json");
 const s2cArray = require("../assets/s2c.json");
 const sproto = require("./sproto.js");
