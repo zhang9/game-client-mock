@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ins = axios.create({
-    baseURL: process.env.VUE_APP_ACCOUNT_SERVER || "http://127.0.0.1:13200",
+    baseURL: process.env.VUE_APP_ACCOUNT_SERVER || "http://10.1.18.20013200",
     headers: {
         "Content-Type": "application/json"
     }
@@ -30,7 +30,6 @@ export function getAllGameServers() {
 
 export function getAllConfig() {
     return ins.get("/all-config").then(res => {
-        console.log(res.data.translate[0]);
         return res.data;
     });
 }

@@ -66,7 +66,7 @@ export default defineComponent({
             username: ""
         });
 
-        const login = () => store.dispatch("login", params);
+        const login = () => store.dispatch("login", params).then(res => {console.log(res)});
         const logout = () => store.dispatch("logout");
 
         const servers = reactive([]);

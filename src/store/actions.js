@@ -1,5 +1,6 @@
 import * as accountApis from "../apis/account";
 import * as loginApis from "../apis/login";
+import clientSender, { clientHost } from "../utils/sender";
 import { close, connect } from "../utils/ws";
 
 export default {
@@ -21,7 +22,8 @@ export default {
             })
             .then(() => {
                 commit("connect", true);
-                dispatch("verifyToken");
+                commit("updateRoute", { c2s: clientHost.attachsp, s2c: clientHost.proto });
+                return dispatch("verifyToken");
             });
     },
     getAllConfig({ commit }) {

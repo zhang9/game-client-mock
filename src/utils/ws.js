@@ -1,12 +1,21 @@
 import pako from "pako";
 import { array2arraybuffer } from "./utils";
 import clientSerder, { clientHost } from "./sender";
+import NodeWebSocket from "ws";
+
+let FinalWebSocket = NodeWebSocket,
+    isDom = false;
+if (global && global.WebSocket) {
+    isDom = true;
+    FinalWebSocket = global.WebSocket;
+}
 
 let ws,
     session = 1,
     closeCallback,
     callbacks = {},
-    handlers = {};
+    handlers = {},
+    responseFinishCallback;
 
 function unpackPacket(buff) {
     if (!buff || buff.length < 3) {
@@ -28,12 +37,10 @@ function unpackPacket(buff) {
 }
 
 function onMessage(event) {
-    event.data.arrayBuffer().then(res => {
+    Promise.resolve(isDom ? event.data.arrayBuffer() : event.data).then(res => {
         const array = new Uint8Array(res);
         const newArray = unpackPacket(array);
         const content = clientHost.dispatch(newArray.subarray(3));
-
-        console.log("first", content);
         if (content.type == "RESPONSE") {
             const callback = callbacks[content.session];
             if (callback) {
@@ -49,12 +56,15 @@ function onMessage(event) {
             if (handler) {
                 handler(content.result);
             } else {
-                console.warn(
-                    "未处理的S2C请求 id:",
-                    content.pname,
-                    "content:",
-                    content.result
-                );
+                // console.warn(
+                //     "未处理的S2C请求 id:",
+                //     content.pname,
+                //     "content:",
+                //     content.result
+                // );
+            }
+            if(responseFinishCallback) {
+                responseFinishCallback(content);
             }
         }
     });
@@ -77,10 +87,10 @@ function unbindEvent() {
 }
 
 function __connect(server, callback) {
-    if (ws && ws.readyState === WebSocket.OPEN) {
+    if (ws && ws.readyState === FinalWebSocket.OPEN) {
         return;
     }
-    ws = new WebSocket(`ws://${server}`);
+    ws = new FinalWebSocket(`ws://${server}`);
     ws.addEventListener("open", event => {
         bindEvent();
         if (callback) {
@@ -98,7 +108,7 @@ export function connect(server) {
 }
 
 function __send(name, data, callback) {
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
+    if (!ws || ws.readyState !== FinalWebSocket.OPEN) {
         throw new Error("websocket is not ready!");
     }
     const array = clientSerder(name, data, session);
@@ -123,10 +133,17 @@ function __close(code, callback) {
     ws.close(code);
 }
 
-export function close(code = 10000) {
+export function close(code = 1000) {
     return new Promise(resolve => {
         __close(code, res => {
             resolve(res);
         });
     });
+}
+
+export function registerHandle(name, callback) {
+    handlers[name] = callback;
+}
+export function onResponseFinish(callback) {
+    responseFinishCallback = callback;
 }
