@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ins = axios.create({
-    baseURL: process.env.VUE_APP_ACCOUNT_SERVER || "http://10.1.18.20013200",
+    baseURL: process.env.VUE_APP_ACCOUNT_SERVER || "http://10.1.18.200:13200",
     headers: {
         "Content-Type": "application/json"
     }
